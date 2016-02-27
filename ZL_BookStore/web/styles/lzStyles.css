@@ -1,0 +1,75 @@
+#companyName
+{
+    font-size: 50px;
+    font-family: cursive;
+    background-color: black;
+    color:lightblue;
+    font-weight: bold;
+    border-radius: 14px;
+    border-width:thick;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+#header
+{
+    margin-top: -75px;
+    text-align: center;
+}
+
+#user
+{
+    margin-top: -35px;
+    margin-left: 10px;
+    color: white;
+}
+
+#createAccount
+{
+    color: white;
+}
+
+#login
+{
+    color: white;
+}
+
+#myAccount
+{
+    text-align: right;
+    margin-top: -20px;
+    margin-right: 15px;
+}
+
+#account
+{
+    color: white;
+}
+
+
+body 
+{
+    background-color: lightblue;
+}
+
+.top 
+{
+    position:absolute;
+    left:0; right:0;
+    height: 150px;
+}
+
+.left 
+{
+    position:absolute;
+    left:0; top:160px; bottom: 0;
+    width: 178px;
+    background-color: rosybrown;
+    border-radius: 10px;
+}
+
+.main 
+{
+    position: absolute;
+    left:178px; top:160px; right:0; bottom:0;
+}
