@@ -46,6 +46,10 @@
     color: white;
 }
 
+#passwordHint
+{
+    color:black;
+}
 
 body 
 {

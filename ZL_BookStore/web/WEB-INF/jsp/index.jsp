@@ -9,8 +9,8 @@
     <div class="top">
          <p id="companyName">ZL Book Store</p> 
     <div id="header">
-    <form>
-        <input type="search" placeholder="Book name"/>
+    <form action="http://www.localhost:8080/ZL_BookStore/Search" method="post" >
+        <input name="searchWords" type="search" placeholder="Book name"/>
         <select name="books">
             <option value="all" selected="selected">all</option>  
             <option value="Education">Education</option>
@@ -18,7 +18,6 @@
             <option value="Romance">Romance</option>
             <option value="Classic">Classic</option>
             <option value="Kids">Kids</option>
-            <option value="">SciFi</option>
         </select>
         <input type="submit" value="Search"/>
     </form>
