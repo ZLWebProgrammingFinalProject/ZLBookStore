@@ -30,6 +30,7 @@
     </div>
     
     <div id="myAccount">
+        <a href="#" id="homePage">Home page</a> |
         <a href="htmls/myAccount.html" id="account">My account</a>
     </div>
     
