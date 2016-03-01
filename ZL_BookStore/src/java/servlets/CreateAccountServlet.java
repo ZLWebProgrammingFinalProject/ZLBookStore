@@ -7,6 +7,11 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +47,30 @@ public class CreateAccountServlet extends HttpServlet {
         name = request.getParameter("name");
         email = request.getParameter("email");
         
+        String hasConnected = "false";
+        
+        try
+        {
+            Class.forName("org.gjt.mm.mysql.Driver");
+            String dbUrl = "jdbc:mysql://localhost:3306/mydb";
+            String dbUsername = "root";
+            String dbPassword = "sesame";
+            
+            Connection conn =  DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+            hasConnected = "true";
+        }
+        catch(SQLException e)
+        {
+            for(Throwable t:e)
+            {
+                t.printStackTrace();
+            }
+            hasConnected = "failed -> SQLException";
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CreateAccountServlet.class.getName()).log(Level.SEVERE, null, ex);
+            hasConnected = "failed -> ClassNotFoundException";
+        }
+        
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -50,6 +79,7 @@ public class CreateAccountServlet extends HttpServlet {
             out.println("<title>Servlet CreateAccountServlet</title>");            
             out.println("</head>");
             out.println("<body>");
+            out.println("<h1> Connection "+ hasConnected +"</h1>");
             out.println("<h1>Thank you for registering with us " + name + "!</h1>");
             out.println("<h1>We will send an email to " + email + " to confirm "+ username +"'s registration.</h1>");
             out.println("</body>");
