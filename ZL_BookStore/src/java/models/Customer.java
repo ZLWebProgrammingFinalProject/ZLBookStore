@@ -18,6 +18,14 @@ public class Customer implements Serializable
     private String name;
     private String email;
     
+    public Customer() 
+    {
+        this.userName = "";
+        this.passWord = "";
+        this.name = "";
+        this.email = "";
+    }
+    
     public Customer(String userName, String passWord, String name, String email) 
     {
         this.userName = userName;

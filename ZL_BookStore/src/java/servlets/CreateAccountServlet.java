@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.Customer;
 
 /**
  *
@@ -46,6 +47,10 @@ public class CreateAccountServlet extends HttpServlet {
         password = request.getParameter("password");
         name = request.getParameter("name");
         email = request.getParameter("email");
+        
+        // String userName, String passWord, String name, String email
+        Customer customer = new Customer(username, password, name, email);
+        ///
         
         String hasConnected = "false";
         
