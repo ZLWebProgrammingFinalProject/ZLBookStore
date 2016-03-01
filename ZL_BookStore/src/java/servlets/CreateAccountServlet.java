@@ -28,8 +28,20 @@ public class CreateAccountServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException 
+    {
         response.setContentType("text/html;charset=UTF-8");
+        
+        String username = "0";
+        String name = "0";
+        String email = "0";
+        String password = "0";
+        
+        username = request.getParameter("username");
+        password = request.getParameter("password");
+        name = request.getParameter("name");
+        email = request.getParameter("email");
+        
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -38,7 +50,8 @@ public class CreateAccountServlet extends HttpServlet {
             out.println("<title>Servlet CreateAccountServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CreateAccountServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Thank you for registering with us " + name + "!</h1>");
+            out.println("<h1>We will send an email to " + email + " to confirm "+ username +"'s registration.</h1>");
             out.println("</body>");
             out.println("</html>");
         }

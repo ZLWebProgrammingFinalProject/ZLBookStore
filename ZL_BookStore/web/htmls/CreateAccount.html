@@ -43,10 +43,17 @@
     
     <div class="left">
          <h2>Create new account</h2>
-      <form action="http://www.localhost:8080/ZL_BookStore/CreateAccount" method="post" onsubmit="return checkForm(this);"> <!-- CHANGE ACTION TO THE SERVLET FILE --->
+      <form action="http://www.localhost:8080/ZL_BookStore/CreateAccount" method="post" onsubmit="return checkForm(this);"> 
         Username: <input type="text" name="username"/> <br />
         Password: <input type="password" name="pwd1"/> <br />
         Confirm Password: <input type="password" name="pwd2"/> <br />
+        
+        <hr>
+        *Personal Information*
+        First Name & Last Name: <br />
+        <input type="text" name="name"/> <br />
+        Email: <br />
+        <input type="text" name="email"/> <br />
     <input type="submit" value="Submit"/>
     </form>
          
