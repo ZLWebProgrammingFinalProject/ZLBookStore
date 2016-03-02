@@ -69,4 +69,62 @@ public class CustomerDB {
         }
     }
     
+    public static int delete(Customer customer)
+    {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps= null;
+        
+        String query = "DELETE FROM Customer "
+                + "WHERE email = ?";
+        
+        try
+        {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, customer.getEmail());
+            
+            return ps.executeUpdate();
+        }
+        catch(SQLException e)
+        {
+            System.out.println(e);
+            return 0;
+        }
+        finally
+        {
+            DBUtil.closePreparedStatment(ps);
+            pool.freeConnection(connection);
+        }
+    }
+    
+    public static boolean customerExists(String username)
+    {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps= null;
+        ResultSet rs = null;
+        
+        String query = "SELECT username FROM Customer "
+                + "WHERE username = ?";
+        
+        try
+        {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, username);
+            rs = ps.executeQuery();
+            return rs.next();
+        } 
+        catch(SQLException e)
+        {
+            System.out.println(e);
+            return false;
+        }
+        finally
+        {
+            DBUtil.closeResultSet(rs);
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
+    
 }
