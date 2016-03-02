@@ -17,18 +17,12 @@ public class CustomerDB {
     
     public static int insert(Customer customer)
     {
-//        Context initCtx = new InitialContext();
-//        Context envCtx = (Context)initCtx.lookup("java:comp/env");
-//        DataSource ds = (DataSource)envCtx.lookup("jdbc/css490");
-//        Connection conn = ds.getConnection();
-        
-        
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
         
         String query
-                = "INSERT INTO Customer(userName, name, passWord, email)"+"VALUE(?,?,?,?)";
+                = "INSERT INTO Customer(username, name, password, email)"+"VALUE(?,?,?,?)";
         try {
             ps = connection.prepareStatement(query);
             ps.setString(1, customer.getEmail());
@@ -51,7 +45,7 @@ public class CustomerDB {
         Connection connection = pool.getConnection();
         PreparedStatement ps= null;
         
-        String query = "UPDATE customer SET" + "userName = ?, "+"name = ? "+"passWord=? "+"email=?";
+        String query = "UPDATE customer SET" + "username = ?, "+"name = ? "+"password=? "+"email=?";
         
         try 
         {

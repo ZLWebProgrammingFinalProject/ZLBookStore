@@ -22,7 +22,7 @@ public class ConnectionPool {
     private ConnectionPool(){
         try{
             InitialContext ic = new InitialContext();
-            dataSource = (DataSource) ic.lookup("java:/comp/env/jdbc/ZL_BookStore");
+            dataSource = (DataSource) ic.lookup("java:/comp/env/jdbc/zl");
         } catch (NamingException e){
             System.out.println(e);
         }
@@ -49,10 +49,9 @@ public class ConnectionPool {
             return null;
         }
     }
-    
-    public void feeConnection(Connection c)
-    {
-        try
+   
+    public void freeConnection(Connection c) {
+         try
         {
             c.close();
         }
