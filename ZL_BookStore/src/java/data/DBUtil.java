@@ -57,6 +57,20 @@ public class DBUtil
             System.out.println(e);
         }
     }
+
+    public static void closePreparedStatment(PreparedStatement ps) {
+        try
+        {
+            if(ps != null)
+            {
+                ps.close();
+            }
+        }
+        catch(SQLException e)
+        {
+            System.out.println(e);
+        }
+    }
     
     
 }

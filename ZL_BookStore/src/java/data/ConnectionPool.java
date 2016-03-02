@@ -51,7 +51,7 @@ public class ConnectionPool {
     }
    
     public void freeConnection(Connection c) {
-         try
+        try
         {
             c.close();
         }

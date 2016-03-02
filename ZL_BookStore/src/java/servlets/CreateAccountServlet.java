@@ -5,6 +5,7 @@
  */
 package servlets;
 
+import data.CustomerDB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -22,7 +23,17 @@ import models.Customer;
  *
  * @author jin3lee
  */
-public class CreateAccountServlet extends HttpServlet {
+public class CreateAccountServlet extends HttpServlet 
+{
+
+    /**
+     *
+     */
+    @Override
+    public void init()
+    {
+    
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,16 +59,12 @@ public class CreateAccountServlet extends HttpServlet {
         name = request.getParameter("name");
         email = request.getParameter("email");
         
-        // String userName, String passWord, String name, String email
-        Customer customer = new Customer(username, password, name, email);
-        ///
-        
         String hasConnected = "false";
         
         try
         {
             Class.forName("org.gjt.mm.mysql.Driver");
-            String dbUrl = "jdbc:mysql://localhost:3306/mydb";
+            String dbUrl = "jdbc:mysql://localhost:3306/zl";
             String dbUsername = "root";
             String dbPassword = "sesame";
             
@@ -71,9 +78,24 @@ public class CreateAccountServlet extends HttpServlet {
                 t.printStackTrace();
             }
             hasConnected = "failed -> SQLException";
-        } catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex) { 
             Logger.getLogger(CreateAccountServlet.class.getName()).log(Level.SEVERE, null, ex);
-            hasConnected = "failed -> ClassNotFoundException";
+        }
+        
+        
+        
+        // String userName, String passWord, String name, String email
+        Customer customer = new Customer(username, password, name, email);
+        
+        String isCustomerExist = "Don't Know if it exists..";
+        ///
+        if(CustomerDB.customerExists(customer.getUserName()))
+        {
+            isCustomerExist = "CUSTOMER DOES EXIST..";
+        }
+        else
+        {
+            isCustomerExist = "DOESN'T EXIST";
         }
         
         try (PrintWriter out = response.getWriter()) {
@@ -87,6 +109,8 @@ public class CreateAccountServlet extends HttpServlet {
             out.println("<h1> Connection "+ hasConnected +"</h1>");
             out.println("<h1>Thank you for registering with us " + name + "!</h1>");
             out.println("<h1>We will send an email to " + email + " to confirm "+ username +"'s registration.</h1>");
+            out.println("<h2>"+ hasConnected +"</h2>");
+            out.println("<h2> sup done " + isCustomerExist + "</h2>");
             out.println("</body>");
             out.println("</html>");
         }

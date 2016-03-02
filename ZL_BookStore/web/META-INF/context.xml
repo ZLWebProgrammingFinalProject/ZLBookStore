@@ -1,2 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context path="/ZL_BookStore"/>
+<Context path="/ZL_BookStore">
+
+    <Resource 
+        name="jdbc/zl" auth="Container"
+        driverClassName="com.mysql.jdbc.Driver"
+        url="jdbc:mysql://localhost:3306/zl?autoReconnect=true"
+        username="root" password="sesame"
+        maxActive="100" maxIdle="30" maxWait="10000"
+        logAbandoned="true" removeAbandoned="true"
+        removeAbandonedTimeout="60" type="javax.sql.DataSource"
+    />
+    
+</Context>
