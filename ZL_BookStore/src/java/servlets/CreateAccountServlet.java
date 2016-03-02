@@ -55,7 +55,7 @@ public class CreateAccountServlet extends HttpServlet
         String password = "0";
         
         username = request.getParameter("username");
-        password = request.getParameter("password");
+        password = request.getParameter("pwd1");
         name = request.getParameter("name");
         email = request.getParameter("email");
         
@@ -97,6 +97,8 @@ public class CreateAccountServlet extends HttpServlet
         {
             isCustomerExist = "DOESN'T EXIST";
         }
+        
+        CustomerDB.insert(customer);
         
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
