@@ -5,6 +5,7 @@
  */
 package data;
 
+import util.DBUtil;
 import java.sql.*;
 
 import models.Customer;
@@ -25,10 +26,11 @@ public class CustomerDB {
                 = "INSERT INTO Customer(username, name, password, email)"+"VALUE(?,?,?,?)";
         try {
             ps = connection.prepareStatement(query);
-            ps.setString(1, customer.getEmail());
-            ps.setString(2, customer.getUserName());
+            ps.setString(1, customer.getUserName());
+            ps.setString(2, customer.getName());
             ps.setString(3, customer.getPassWord());
-            ps.setString(4, customer.getName());
+            ps.setString(4, customer.getEmail());
+            
             return ps.executeUpdate();
         } catch (SQLException e){
             System.out.println(e);
@@ -127,4 +129,42 @@ public class CustomerDB {
         }
     }
     
+    public static boolean validateLogin(String username, String password)
+    {
+        boolean isValid = false;
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps= null;
+        ResultSet rs = null;
+        
+        String query = "SELECT * FROM Customer "
+                + "WHERE username = ? and password = ?";
+        
+        try
+        {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            rs = ps.executeQuery();
+            
+            if(rs.next())
+            {
+                isValid = true;
+            }
+                
+            return isValid;
+        } 
+        catch(SQLException e)
+        {
+            System.out.println(e);
+            return false;
+        }
+        finally
+        {
+            DBUtil.closeResultSet(rs);
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
 }

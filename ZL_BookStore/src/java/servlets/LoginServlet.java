@@ -5,12 +5,19 @@
  */
 package servlets;
 
+import data.CustomerDB;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.Customer;
 
 /**
  *
@@ -28,17 +35,70 @@ public class LoginServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException 
+    {
         response.setContentType("text/html;charset=UTF-8");
+        
+        String username = "0";
+        String password = "0";
+        
+        username = request.getParameter("username");
+        password = request.getParameter("password");
+        
+        
+        try
+        {
+            Class.forName("org.gjt.mm.mysql.Driver");
+            String dbUrl = "jdbc:mysql://localhost:3306/zl";
+            String dbUsername = "root";
+            String dbPassword = "sesame";
+            
+            Connection conn =  DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+        }
+        catch(SQLException e)
+        {
+            for(Throwable t:e)
+            {
+                t.printStackTrace();
+            }
+        } catch (ClassNotFoundException ex) { 
+            Logger.getLogger(CreateAccountServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        String isCustomerExist = "Can't login??? wtf";
+        boolean isValidated = false;
+        ///
+        if(CustomerDB.validateLogin(username, password))
+        {
+            isCustomerExist = "You exist and have logged in!!!! SUCCESS!";
+            isValidated = true;
+        }
+        else
+        {
+            isCustomerExist = "FAILED TO LOGIN!";
+        }
+        
+        
+        
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
+            
+            if(isValidated)
+            {
+                out.println("<meta http-equiv=\"refresh\" content=\"0; url=http://www.google.com/\" />");
+            }
+            else
+            {
+               out.println("<meta http-equiv=\"refresh\" content=\"0; url=http://www.amazon.com/\" />");
+            }
             out.println("<title>Servlet LoginServlet</title>");            
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet LoginServlet at " + isCustomerExist + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }

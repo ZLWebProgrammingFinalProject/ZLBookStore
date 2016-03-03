@@ -26,14 +26,6 @@ import models.Customer;
 public class CreateAccountServlet extends HttpServlet 
 {
 
-    /**
-     *
-     */
-    @Override
-    public void init()
-    {
-    
-    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
