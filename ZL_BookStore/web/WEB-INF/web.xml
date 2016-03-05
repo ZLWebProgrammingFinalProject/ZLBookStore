@@ -36,6 +36,10 @@
         <servlet-name>SearchServlet</servlet-name>
         <servlet-class>servlets.SearchServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MyAccountServlet</servlet-name>
+        <servlet-class>servlets.MyAccountServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.htm</url-pattern>
@@ -63,6 +67,10 @@
     <servlet-mapping>
         <servlet-name>SearchServlet</servlet-name>
         <url-pattern>/Search</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MyAccountServlet</servlet-name>
+        <url-pattern>/MyAccount</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

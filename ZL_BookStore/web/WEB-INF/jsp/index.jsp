@@ -31,7 +31,7 @@
     
     <div id="myAccount">
         <a href="#" id="homePage">Home page</a> |
-        <a href="htmls/myAccount.html" id="account">My account</a>
+        <a href="http://www.localhost:8080/ZL_BookStore/MyAccount" id="account">My account</a>
     </div>
     
     </div>

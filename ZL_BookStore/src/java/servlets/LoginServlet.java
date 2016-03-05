@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -65,13 +66,21 @@ public class LoginServlet extends HttpServlet {
             Logger.getLogger(CreateAccountServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        // initialize values
         String isCustomerExist = "Can't login??? wtf";
         boolean isValidated = false;
+        
         ///
         if(CustomerDB.validateLogin(username, password))
         {
             isCustomerExist = "You exist and have logged in!!!! SUCCESS!";
             isValidated = true;
+            
+            // create cookie and store username
+            Cookie c = new Cookie("currentUserLoggedIn", username);
+            c.setMaxAge(60*30);    // removes the username when user closes the browser
+            c.setPath("/");
+            response.addCookie(c);
         }
         else
         {
@@ -85,20 +94,20 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            
-            if(isValidated)
-            {
-                out.println("<meta http-equiv=\"refresh\" content=\"0; url=http://www.google.com/\" />");
-            }
-            else
-            {
-               out.println("<meta http-equiv=\"refresh\" content=\"0; url=http://www.amazon.com/\" />");
-            }
             out.println("<title>Servlet LoginServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
-            out.println("<h1>Servlet LoginServlet at " + isCustomerExist + "</h1>");
+            if(isValidated)
+            {
+                out.println("<meta http-equiv=\"refresh\" content=\"0; url=http://www.localhost:8080/ZL_BookStore/MyAccount\" />");
+                out.println("<h1>SUCCESSFULL Login! :)</h1>");
+            }
+            else
+            {
+               out.println("<meta http-equiv=\"refresh\" content=\"0; url=http://localhost:8080/ZL_BookStore/htmls/login.html\" />");
+               out.println("<h1>FAILED Login! >:/</h1>");                 
+            }
+            
             out.println("</body>");
             out.println("</html>");
         }

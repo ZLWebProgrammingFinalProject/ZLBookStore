@@ -18,7 +18,7 @@ import util.CookieUtil;
  *
  * @author jin3lee
  */
-public class LogOutServlet extends HttpServlet {
+public class MyAccountServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,19 +31,35 @@ public class LogOutServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         response.setContentType("text/html;charset=UTF-8");
         
         Cookie[] cookies = request.getCookies();
-        for(Cookie cookie : cookies)
+        String currentUserLoggedIn = CookieUtil.getCookieValue(cookies, "currentUserLoggedIn");
+        
+        if(!currentUserLoggedIn.equals(""))
         {
-            cookie.setMaxAge(0);
-            cookie.setPath("/");
-            response.addCookie(cookie);
+            // redirect to My Account
+            response.sendRedirect("http://localhost:8080/ZL_BookStore/htmls/myAccount.html");
+        }
+        else
+        {
+            // redirect to login.html
+            response.sendRedirect("http://localhost:8080/ZL_BookStore/htmls/login.html");
         }
         
-        response.sendRedirect("http://www.localhost:8080/ZL_BookStore/redirect.jsp");
-
+//        try (PrintWriter out = response.getWriter()) {
+//            /* TODO output your page here. You may use following sample code. */
+//            out.println("<!DOCTYPE html>");
+//            out.println("<html>");
+//            out.println("<head>");
+//            out.println("<title>Servlet MyAccountServlet</title>");            
+//            out.println("</head>");
+//            out.println("<body>");
+//            out.println("<h1>Servlet MyAccountServlet at " + request.getContextPath() + "</h1>");
+//            out.println("<h1>Servlet YOUR CURRENT USER LOGGED IN(COOKIE) " + currentUserLoggedIn + "</h1>");
+//            out.println("</body>");
+//            out.println("</html>");
+//        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
