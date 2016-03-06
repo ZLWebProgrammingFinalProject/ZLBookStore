@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.Book;
 
 /**
  *
@@ -40,32 +41,64 @@ public class SearchServlet extends HttpServlet {
             params = request.getParameter("searchWords");
         }
         
-//        if(request.getParameter("books")!= null)
-//        {
-//            params += " of " +request.getParameter("books");
-//        }
-        
         
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SearchServlet</title>");            
+            out.println("<title>ZL BookStore - Search Results</title>");
+            out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"http://localhost:8080/ZL_BookStore/styles/lzStyles.css\">");
             out.println("</head>");
-            out.println("<body>");
-            
-         if(BookDB.bookExists(params))
-         {
-            out.println("<h1> Successfully Found the Book:</h1>");
-            out.println("<h1>"+params+"</h1>");
-         }
-         else
-         {
-             out.println("<h1> Sorry, We couldn't find the book:</h1>");
-             out.println("<h1>"+params+"</h1>");
-         }
-            out.println("</body>");
+    
+            out.println("<div class=\"top\">");
+            out.println("<p id=\"companyName\">ZL Book Store</p> ");
+            out.println("<div id=\"header\">");
+            out.println("<form action=\"http://www.localhost:8080/ZL_BookStore/Search\" method=\"post\" >");
+            out.println("<input name=\"searchWords\" type=\"search\" placeholder=\"Book name\"/>");
+            out.println("<select name=\"books\">");
+            out.println("<option value=\"all\" selected=\"selected\">all</option>");
+            out.println("<option value=\"Education\">Education</option>");
+            out.println("<option value=\"SciFi\">SciFi</option>");
+            out.println("<option value=\"Romance\">Romance</option>");
+            out.println("<option value=\"Classic\">Classic</option>");
+            out.println("<option value=\"Kids\">Kids</option>");
+            out.println("</select>");
+            out.println("<input type=\"submit\" value=\"Search\"/>");
+            out.println("</form>");
+            out.println("<br />");
+            out.println("</div>");
+
+            out.println("<div id=\"user\">");
+            out.println("<a href=\"http://localhost:8080/ZL_BookStore/htmls/CreateAccount.html\" id=\"createAccount\">Create new account</a> |");
+            out.println("<a href=\"login.html\" id=\"login\" >Login</a><br/>");
+            out.println("</div>");
+
+            out.println("<div id=\"myAccount\">");
+            out.println("<a href=\"../redirect.jsp\" id=\"homePage\">Home page</a> |");
+            out.println("<a href=\"http://localhost:8080/ZL_BookStore/MyAccount\" id=\"account\">My account</a>");
+            out.println("</div>");
+            out.println("</div>");
+            out.println("<div class=\"main\">");
+            out.println("<div class=\"bookName\">");
+            if(BookDB.bookExists(params))
+            {
+               Book book = BookDB.getBook(params);
+               out.println("<h1>"+book.getBookName()+"</h1>");
+               out.println("<br />");
+               out.println("Author: " + book.getAuthor());
+               out.println("Category: " + book.getCategory());
+               out.println("Price: " + book.getPrice());
+               out.println("Published Year: " + book.getPublishedYear());
+            }
+            else
+            {
+                out.println("<h1> Sorry, We couldn't find the book:"+params+"</h1>");
+            }
+            out.println("</div>");
+            out.println("</div>");
+            out.println("<div class=\"left\">");
+            out.println("</div>");
             out.println("</html>");
         }
     }

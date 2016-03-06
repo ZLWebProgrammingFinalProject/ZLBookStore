@@ -148,11 +148,20 @@ public class BookDB {
             ps.setString(1, bookName);
             rs = ps.executeQuery();
             
-//            if(rs.next())
-//            {
-////                book = new Book(rs.);
-//                return new Book();
-//            }
+            if(rs.next())
+            {
+                //(int idProduct, double price, String category, String author,
+            //int publishedYear, int amountInventory, String bookName) 
+                return new Book(
+                        rs.getInt("idProduct"),
+                        rs.getDouble("price"),
+                        rs.getString("category"),
+                        rs.getString("author"),
+                        rs.getInt("publishedYear"),
+                        rs.getInt("amountInventory"),
+                        rs.getString("bookName")
+                );
+            }
                 
             return new Book();
         } 
