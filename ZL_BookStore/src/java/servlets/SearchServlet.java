@@ -5,6 +5,7 @@
  */
 package servlets;
 
+import data.BookDB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -38,11 +39,11 @@ public class SearchServlet extends HttpServlet {
         {
             params = request.getParameter("searchWords");
         }
-         
-        if(request.getParameter("books")!= null)
-        {
-            params += " of " +request.getParameter("books");
-        }
+        
+//        if(request.getParameter("books")!= null)
+//        {
+//            params += " of " +request.getParameter("books");
+//        }
         
         
         try (PrintWriter out = response.getWriter()) {
@@ -54,9 +55,16 @@ public class SearchServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             
-            out.println("<h1>" + params + "</h1>");
-            
-            out.println("<h1>Servlet SearchServlet at " + request.getContextPath() + "</h1>");
+         if(BookDB.bookExists(params))
+         {
+            out.println("<h1> Successfully Found the Book:</h1>");
+            out.println("<h1>"+params+"</h1>");
+         }
+         else
+         {
+             out.println("<h1> Sorry, We couldn't find the book:</h1>");
+             out.println("<h1>"+params+"</h1>");
+         }
             out.println("</body>");
             out.println("</html>");
         }
