@@ -92,22 +92,8 @@ public class CreateAccountServlet extends HttpServlet
         
         CustomerDB.insert(customer);
         
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet CreateAccountServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1> Connection "+ hasConnected +"</h1>");
-            out.println("<h1>Thank you for registering with us " + name + "!</h1>");
-            out.println("<h1>We will send an email to " + email + " to confirm "+ username +"'s registration.</h1>");
-            out.println("<h2>"+ hasConnected +"</h2>");
-            out.println("<h2> sup done " + isCustomerExist + "</h2>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        response.sendRedirect("http://localhost:8080/ZL_BookStore/htmls/login.html");
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
