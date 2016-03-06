@@ -70,13 +70,13 @@ public class SearchServlet extends HttpServlet {
             out.println("</div>");
 
             out.println("<div id=\"user\">");
-            out.println("<a href=\"http://localhost:8080/ZL_BookStore/htmls/CreateAccount.html\" id=\"createAccount\">Create new account</a> |");
+            out.println("<a href=\"http://www.localhost:8080/ZL_BookStore/htmls/CreateAccount.html\" id=\"createAccount\">Create new account</a> |");
             out.println("<a href=\"http://www.localhost:8080/ZL_BookStore/htmls/login.html\" id=\"login\" >Login</a><br/>");
             out.println("</div>");
 
             out.println("<div id=\"myAccount\">");
             out.println("<a href=\"http://www.localhost:8080/ZL_BookStore/redirect.jsp\" id=\"homePage\">Home page</a> |");
-            out.println("<a href=\"http://localhost:8080/ZL_BookStore/MyAccount\" id=\"account\">My account</a>");
+            out.println("<a href=\"http://www.localhost:8080/ZL_BookStore/MyAccount\" id=\"account\">My account</a>");
             out.println("</div>");
             out.println("</div>");
             out.println("<div class=\"main\">");
@@ -90,6 +90,9 @@ public class SearchServlet extends HttpServlet {
                out.println("Category: " + book.getCategory());
                out.println("Price: " + book.getPrice());
                out.println("Published Year: " + book.getPublishedYear());
+               out.println("<form action=\"http://localhost:8080/ZL_BookStore/myCart\" method=\"post\" >");
+               out.println("<input type=\"submit\" value=\"ADD to Cart\"/>");
+               out.println("</form>");
             }
             else
             {
