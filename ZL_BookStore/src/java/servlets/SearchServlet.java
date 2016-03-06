@@ -90,7 +90,7 @@ public class SearchServlet extends HttpServlet {
                out.println("Category: " + book.getCategory());
                out.println("Price: " + book.getPrice());
                out.println("Published Year: " + book.getPublishedYear());
-               out.println("<form action=\"http://localhost:8080/ZL_BookStore/myCart\" method=\"post\" >");
+               out.println("<form action=\"http://www.localhost:8080/ZL_BookStore/MyCart\" method=\"post\" >");
                out.println("<input type=\"submit\" value=\"ADD to Cart\"/>");
                out.println("</form>");
             }
