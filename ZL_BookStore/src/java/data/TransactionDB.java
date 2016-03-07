@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import models.Cart;
 import models.Transaction;
 import util.DBUtil;
 
@@ -46,6 +47,23 @@ public class TransactionDB
         
     }
     
+    
+    public static void insert(ArrayList<Cart> carts)
+    {
+        for(int i = 0; i < carts.size(); i++)
+        {
+            Cart cart = carts.get(i);
+            //Date date, double price, int quantity, String Customer_username, int Books_idProduct
+            TransactionDB.insert(
+                    new Transaction(
+                            cart.getDate(), 
+                            BookDB.getBook(cart.getBooks_idProduct()).getPrice() * cart.getQuantity(), 
+                            cart.getQuantity(), 
+                            cart.getCustomer_username(), 
+                            cart.getBooks_idProduct()));
+        }
+    }
+    
     public static ArrayList<Transaction> getTransactions(String Customer_username)
     {
         ArrayList<Transaction> transactions = new ArrayList<>();
@@ -55,7 +73,7 @@ public class TransactionDB
         PreparedStatement ps= null;
         ResultSet rs = null;
         
-        String query = "SELECT * FROM Transaction "
+        String query = "SELECT * FROM Transactions "
                 + "WHERE Customer_username = ?";
         
         try

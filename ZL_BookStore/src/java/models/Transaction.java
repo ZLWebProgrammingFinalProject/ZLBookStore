@@ -22,7 +22,18 @@ public class Transaction implements Serializable
     String Customer_username;
     int Books_idProduct;
     
-    public Transaction(int idTransactions, Date date, double price, int quantity, String Customer_username, int Books_idProduct) {
+    public Transaction(int idTransactions, Date date, double price, int quantity, String Customer_username, int Books_idProduct)
+    {
+        this.idTransactions = idTransactions;
+        this.date = date;
+        this.price = price;
+        this.quantity = quantity;
+        this.Customer_username = Customer_username;
+        this.Books_idProduct = Books_idProduct;
+    }
+    
+    public Transaction(Date date, double price, int quantity, String Customer_username, int Books_idProduct)
+    {
         this.idTransactions = idTransactions;
         this.date = date;
         this.price = price;

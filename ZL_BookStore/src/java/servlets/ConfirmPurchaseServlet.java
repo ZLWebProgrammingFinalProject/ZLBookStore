@@ -5,6 +5,7 @@
  */
 package servlets;
 
+import data.CartDB;
 import data.TransactionDB;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,6 +15,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.Cart;
 import models.Transaction;
 import util.CookieUtil;
 
@@ -42,13 +44,14 @@ public class ConfirmPurchaseServlet extends HttpServlet {
         // get username
         String username = CookieUtil.getCookieValue(cookies, "currentUserLoggedIn");
         
-        // create transaction objects
-        ArrayList<Transaction> transactions = TransactionDB.getTransactions(username);
+        // get carts
+        ArrayList<Cart> carts = CartDB.getCart(username);
         
         // insert transaction into db
-        
+        TransactionDB.insert(carts);
         
         // remove all carts
+        
         
         
         
@@ -96,6 +99,9 @@ public class ConfirmPurchaseServlet extends HttpServlet {
             out.println("</div>");
             out.println("</div>");
             out.println("<div class=\"left\">");
+            out.println("<a href=\"http://www.localhost:8080/ZL_BookStore/MyCart\" id=\\\"myCart\\\">myCart</a><hr/>"
+                    + "<a href=\"http://www.localhost:8080/ZL_BookStore/MyOrder\" id=\\\"myCart\\\">myOrder</a><hr/>"
+                    + "<a href=\"http://www.localhost:8080/ZL_BookStore/LogOut\" id=\\\"myCart\\\">logOut</a><hr/>");
             out.println("</div>");
             out.println("</html>");
         }

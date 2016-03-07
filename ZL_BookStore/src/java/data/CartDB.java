@@ -40,7 +40,6 @@ public class CartDB
             DBUtil.closePreparedStatement(ps);
             pool.freeConnection(connection);
         }
-        
     }
     
     public static ArrayList<Cart> getCart(String Customer_username)
