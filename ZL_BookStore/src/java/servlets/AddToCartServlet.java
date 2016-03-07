@@ -46,20 +46,24 @@ public class AddToCartServlet extends HttpServlet {
     {
         response.setContentType("text/html;charset=UTF-8");
                  
+        // initialize variables
         int quantity = 0;
         Date date= null;
         int Books_idProduct = 0;
         String Customer_username= "0";
         LocalDateTime dateTime = LocalDateTime.now();
         
+        // get cookies
         Cookie[] cookies = request.getCookies();
         
+        // set variables
         String count = request.getParameter("count");
         quantity = Integer.parseInt(count);
         date = new Date(dateTime.getYear(), dateTime.getMonthOfYear(), dateTime.getDayOfMonth());
         Books_idProduct = Integer.parseInt(CookieUtil.getCookieValue(cookies, "Books_idProduct"));
         Customer_username = CookieUtil.getCookieValue(cookies, "currentUserLoggedIn");
         
+        // delete user book cookie
         CookieUtil.deleteCookie(request, response, "Books_idProduct");
         
         String hasConnected = "false";
@@ -90,7 +94,15 @@ public class AddToCartServlet extends HttpServlet {
   
         CartDB.insert(cart);
         
-        response.sendRedirect("http://localhost:8080/ZL_BookStore/htmls/login.html");
+        // check if there is someone logged in
+        if(!CookieUtil.getCookieValue(cookies, "currentUserLoggedIn").equals(""))
+        {
+            response.sendRedirect("http://localhost:8080/ZL_BookStore/MyCart");
+        }
+        else
+        {
+            response.sendRedirect("http://localhost:8080/ZL_BookStore/htmls/login.html");
+        }
         
     }
 
