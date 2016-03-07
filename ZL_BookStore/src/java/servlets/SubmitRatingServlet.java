@@ -5,12 +5,18 @@
  */
 package servlets;
 
+import data.RatingDB;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.Rating;
+import org.joda.time.LocalDateTime;
+import util.CookieUtil;
 
 /**
  *
@@ -31,8 +37,23 @@ public class SubmitRatingServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        int rating = Integer.parseInt(request.getParameter("rating"));
+        // get rating and book 
+        int ratingValue = Integer.parseInt(request.getParameter("rating"));
         int Book_idProduct = Integer.parseInt(request.getParameter("Books_idProduct"));
+        
+        // get date
+        LocalDateTime dateTime = LocalDateTime.now();
+        Date date = new Date(dateTime.getYear(), dateTime.getMonthOfYear(), dateTime.getDayOfMonth());
+        
+        // get username
+        Cookie[] cookies = request.getCookies();
+        String Customer_username = CookieUtil.getCookieValue(cookies, "currentUserLoggedIn");
+        
+        //Date date, int Rating, String Customer_username, int Books_idProduct
+        Rating rating = new Rating(date, ratingValue, Customer_username, Book_idProduct);
+        
+        // insert rating into db
+        RatingDB.insert(rating);
         
         try (PrintWriter out = response.getWriter()) 
         {

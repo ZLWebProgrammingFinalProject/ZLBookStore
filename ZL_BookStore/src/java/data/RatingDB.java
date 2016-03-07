@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import models.Rating;
 import util.DBUtil;
 
 /**
@@ -92,4 +93,29 @@ public class RatingDB
             pool.freeConnection(connection);
         }
     } 
+        
+    public static int insert(Rating rating)
+    {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        
+        String query
+                = "INSERT INTO Rating(date, Rating, Customer_username, Books_idProduct)"+"VALUE(?,?,?,?)";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, ""+rating.getDate());
+            ps.setString(2, ""+rating.getRating());
+            ps.setString(3, ""+rating.getCustomer_username());
+            ps.setString(4, ""+rating.getBooks_idProduct());
+            
+            return ps.executeUpdate();
+        } catch (SQLException e){
+            System.out.println(e);
+            return 0;
+        } finally {
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
 }

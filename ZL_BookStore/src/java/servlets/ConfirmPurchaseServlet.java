@@ -53,10 +53,6 @@ public class ConfirmPurchaseServlet extends HttpServlet {
         // remove all carts
         
         
-        
-        
-        
-        
         try (PrintWriter out = response.getWriter()) {
            out.println("<!DOCTYPE html>");
             out.println("<html>");

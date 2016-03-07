@@ -101,7 +101,7 @@ public class MyOrderServlet extends HttpServlet {
                 out.println("<td>$"+transactions.get(i).getPrice()+"</td>");
                 if(RatingDB.hasRated(transactions.get(i).getCustomer_username(), transactions.get(i).getBooks_idProduct()))
                 {
-                    out.println("<td>$"+RatingDB.getRating(transactions.get(i).getCustomer_username(), transactions.get(i).getBooks_idProduct())+"</td>");
+                    out.println("<td>"+RatingDB.getRating(transactions.get(i).getCustomer_username(), transactions.get(i).getBooks_idProduct())+"</td>");
                 }
                 else
                 {
