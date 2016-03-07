@@ -7,6 +7,7 @@ package util;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -30,4 +31,22 @@ public class CookieUtil
         return cookieValue;
     }
     
+    public static void deleteCookie(
+            HttpServletRequest req, 
+            HttpServletResponse resp, 
+            String cookieName) 
+    {
+        Cookie[] cookies = req.getCookies();
+        if (cookies != null)
+            for (int i = 0; i < cookies.length; i++) 
+            {
+                if(cookieName.equals(cookies[i].getName()))
+                {
+                    cookies[i].setValue("");
+                    cookies[i].setPath("/");
+                    cookies[i].setMaxAge(0);
+                    resp.addCookie(cookies[i]);
+                }
+            }
+        }
 }

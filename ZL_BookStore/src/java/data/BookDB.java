@@ -17,88 +17,88 @@ import models.Customer;
  */
 public class BookDB {
     
-    public static int insert(Customer customer)
-    {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
-        PreparedStatement ps = null;
-        
-        String query
-                = "INSERT INTO Customer(username, name, password, email)"+"VALUE(?,?,?,?)";
-        try {
-            ps = connection.prepareStatement(query);
-            ps.setString(1, customer.getUserName());
-            ps.setString(2, customer.getName());
-            ps.setString(3, customer.getPassWord());
-            ps.setString(4, customer.getEmail());
-            
-            return ps.executeUpdate();
-        } catch (SQLException e){
-            System.out.println(e);
-            return 0;
-        } finally {
-            DBUtil.closePreparedStatement(ps);
-            pool.freeConnection(connection);
-        }
-        
-    }
-    
-    public static int update(Customer customer){
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
-        PreparedStatement ps= null;
-        
-        String query = "UPDATE customer SET" + "username = ?, "+"name = ? "+"password=? "+"email=?";
-        
-        try 
-        {
-            ps = connection.prepareStatement(query);
-            ps.setString(1, customer.getUserName());
-            ps.setString(2, customer.getName());
-            ps.setString(3, customer.getPassWord());
-            ps.setString(4, customer.getEmail());
-            
-            return ps.executeUpdate();
-        }
-        catch(SQLException e)
-        {
-            System.out.println(e);
-            return 0;
-        }
-        finally
-        {
-            DBUtil.closePreparedStatement(ps);
-            pool.freeConnection(connection);
-        }
-    }
-    
-    public static int delete(Customer customer)
-    {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
-        PreparedStatement ps= null;
-        
-        String query = "DELETE FROM Customer "
-                + "WHERE email = ?";
-        
-        try
-        {
-            ps = connection.prepareStatement(query);
-            ps.setString(1, customer.getEmail());
-            
-            return ps.executeUpdate();
-        }
-        catch(SQLException e)
-        {
-            System.out.println(e);
-            return 0;
-        }
-        finally
-        {
-            DBUtil.closePreparedStatment(ps);
-            pool.freeConnection(connection);
-        }
-    }
+//    public static int insert(Customer customer)
+//    {
+//        ConnectionPool pool = ConnectionPool.getInstance();
+//        Connection connection = pool.getConnection();
+//        PreparedStatement ps = null;
+//        
+//        String query
+//                = "INSERT INTO Customer(username, name, password, email)"+"VALUE(?,?,?,?)";
+//        try {
+//            ps = connection.prepareStatement(query);
+//            ps.setString(1, customer.getUserName());
+//            ps.setString(2, customer.getName());
+//            ps.setString(3, customer.getPassWord());
+//            ps.setString(4, customer.getEmail());
+//            
+//            return ps.executeUpdate();
+//        } catch (SQLException e){
+//            System.out.println(e);
+//            return 0;
+//        } finally {
+//            DBUtil.closePreparedStatement(ps);
+//            pool.freeConnection(connection);
+//        }
+//        
+//    }
+//    
+//    public static int update(Customer customer){
+//        ConnectionPool pool = ConnectionPool.getInstance();
+//        Connection connection = pool.getConnection();
+//        PreparedStatement ps= null;
+//        
+//        String query = "UPDATE customer SET" + "username = ?, "+"name = ? "+"password=? "+"email=?";
+//        
+//        try 
+//        {
+//            ps = connection.prepareStatement(query);
+//            ps.setString(1, customer.getUserName());
+//            ps.setString(2, customer.getName());
+//            ps.setString(3, customer.getPassWord());
+//            ps.setString(4, customer.getEmail());
+//            
+//            return ps.executeUpdate();
+//        }
+//        catch(SQLException e)
+//        {
+//            System.out.println(e);
+//            return 0;
+//        }
+//        finally
+//        {
+//            DBUtil.closePreparedStatement(ps);
+//            pool.freeConnection(connection);
+//        }
+//    }
+//    
+//    public static int delete(Customer customer)
+//    {
+//        ConnectionPool pool = ConnectionPool.getInstance();
+//        Connection connection = pool.getConnection();
+//        PreparedStatement ps= null;
+//        
+//        String query = "DELETE FROM Customer "
+//                + "WHERE email = ?";
+//        
+//        try
+//        {
+//            ps = connection.prepareStatement(query);
+//            ps.setString(1, customer.getEmail());
+//            
+//            return ps.executeUpdate();
+//        }
+//        catch(SQLException e)
+//        {
+//            System.out.println(e);
+//            return 0;
+//        }
+//        finally
+//        {
+//            DBUtil.closePreparedStatment(ps);
+//            pool.freeConnection(connection);
+//        }
+//    }
     
     public static boolean bookExists(String bookName)
     {
