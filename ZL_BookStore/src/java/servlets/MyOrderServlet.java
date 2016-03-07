@@ -6,6 +6,7 @@
 package servlets;
 
 import data.BookDB;
+import data.RatingDB;
 import data.TransactionDB;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -89,6 +90,7 @@ public class MyOrderServlet extends HttpServlet {
             out.println("<td>Book Name</td>");
             out.println("<td>Quantity</td>");
             out.println("<td>Price</td>");
+            out.println("<td>Rating</td>");
             out.println("</tr>");
             for(int i = 0; i < transactions.size(); i++)
             {
@@ -97,6 +99,15 @@ public class MyOrderServlet extends HttpServlet {
                 out.println("<td>"+BookDB.getBook(transactions.get(i).getBooks_idProduct()).getBookName()+"</td>");
                 out.println("<td>"+transactions.get(i).getQuantity()+"</td>");
                 out.println("<td>$"+transactions.get(i).getPrice()+"</td>");
+                if(RatingDB.hasRated(transactions.get(i).getCustomer_username(), transactions.get(i).getBooks_idProduct()))
+                {
+                    out.println("<td>$"+RatingDB.getRating(transactions.get(i).getCustomer_username(), transactions.get(i).getBooks_idProduct())+"</td>");
+                }
+                else
+                {
+                    out.println("<td>$"+transactions.get(i).getPrice()+"</td>");
+                }
+                
                 out.println("</tr>");
             }
             out.println("</table>");
