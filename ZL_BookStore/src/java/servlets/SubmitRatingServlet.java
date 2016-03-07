@@ -32,9 +32,10 @@ public class SubmitRatingServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         int rating = Integer.parseInt(request.getParameter("rating"));
+        int Book_idProduct = Integer.parseInt(request.getParameter("Books_idProduct"));
         
-        
-        try (PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) 
+        {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -42,6 +43,7 @@ public class SubmitRatingServlet extends HttpServlet {
             out.println("<title>Servlet SubmitRatingServlet</title>");            
             out.println("</head>");
             out.println("<body>");
+            out.println("<h1>Book_idProduct:"+Book_idProduct+", Rating="+rating+"</h1>");
             out.println("<h1>Servlet SubmitRatingServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
