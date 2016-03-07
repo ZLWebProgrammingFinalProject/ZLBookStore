@@ -105,13 +105,14 @@ public class MyOrderServlet extends HttpServlet {
                 }
                 else
                 {
-                    out.println("<td><form action=\"http://www.localhost:8080/ZL_BookStore/AddToCart\" method=\"post\" >");
-                    out.println("<select name=\"count\">\n"
+                    out.println("<td><form action=\"http://www.localhost:8080/ZL_BookStore/SubmitRating\" method=\"post\" >");
+                    out.println("<select name=\"rating\">\n"
                        + "<option value=\"1\">1</option>\n"
                        + "<option value=\"2\">2</option>\n"
                        + "<option value=\"3\">3</option>\n"
                        + "<option value=\"4\">4</option>\n"
                        + "<option value=\"5\">5</option>\n</select>");
+                    out.println("<input type=\"hidden\" name=\"Books_idProduct\" value=\""+transactions.get(i).getBooks_idProduct()+"\">");
                     out.println("<input type=\"submit\" value=\"Submit Rating\"/>");
                     out.println("</form></td>");
                 }
