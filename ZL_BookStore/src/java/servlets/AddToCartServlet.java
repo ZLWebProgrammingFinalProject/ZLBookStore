@@ -30,7 +30,7 @@ import util.CookieUtil;
  *
  * @author jin3lee
  */
-public class MyCartServlet extends HttpServlet {
+public class AddToCartServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

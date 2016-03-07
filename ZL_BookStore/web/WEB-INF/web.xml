@@ -21,8 +21,8 @@
         <servlet-class>servlets.LoginServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>MyCartServlet</servlet-name>
-        <servlet-class>servlets.MyCartServlet</servlet-class>
+        <servlet-name>AddToCartServlet</servlet-name>
+        <servlet-class>servlets.AddToCartServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>MyOrderServlet</servlet-name>
@@ -40,6 +40,10 @@
         <servlet-name>MyAccountServlet</servlet-name>
         <servlet-class>servlets.MyAccountServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MyCartServlet</servlet-name>
+        <servlet-class>servlets.MyCart</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.htm</url-pattern>
@@ -53,8 +57,8 @@
         <url-pattern>/Login</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>MyCartServlet</servlet-name>
-        <url-pattern>/MyCart</url-pattern>
+        <servlet-name>AddToCartServlet</servlet-name>
+        <url-pattern>/AddToCart</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>MyOrderServlet</servlet-name>
@@ -71,6 +75,10 @@
     <servlet-mapping>
         <servlet-name>MyAccountServlet</servlet-name>
         <url-pattern>/MyAccount</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MyCartServlet</servlet-name>
+        <url-pattern>/MyCart</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

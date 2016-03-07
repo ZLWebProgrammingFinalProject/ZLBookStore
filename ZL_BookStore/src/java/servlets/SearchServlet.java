@@ -91,7 +91,7 @@ public class SearchServlet extends HttpServlet {
                out.println("Category: " + book.getCategory());
                out.println("Price: " + book.getPrice());
                out.println("Published Year: " + book.getPublishedYear());
-               out.println("<form action=\"http://www.localhost:8080/ZL_BookStore/MyCart\" method=\"post\" >");
+               out.println("<form action=\"http://www.localhost:8080/ZL_BookStore/AddToCart\" method=\"post\" >");
                out.println("<select name=\"count\">\\n    "
                        + "<option value=\"1\">1</option>\n    "
                        + "<option value=\"2\">2</option>\n"
