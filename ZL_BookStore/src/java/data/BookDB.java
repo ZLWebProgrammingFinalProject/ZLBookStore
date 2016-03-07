@@ -177,4 +177,51 @@ public class BookDB {
             pool.freeConnection(connection);
         }
     }
+    public static Book getBook(int idProduct)
+    {
+        int book;
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps= null;
+        ResultSet rs = null;
+        
+        String query = "SELECT * FROM Books "
+                + "WHERE idProduct = ?";
+        
+        try
+        {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, ""+idProduct);
+            rs = ps.executeQuery();
+            
+            if(rs.next())
+            {
+                //(int idProduct, double price, String category, String author,
+            //int publishedYear, int amountInventory, String bookName) 
+                return new Book(
+                        rs.getInt("idProduct"),
+                        rs.getDouble("price"),
+                        rs.getString("category"),
+                        rs.getString("author"),
+                        rs.getInt("publishedYear"),
+                        rs.getInt("amountInventory"),
+                        rs.getString("bookName")
+                );
+            }
+                
+            return new Book();
+        } 
+        catch(SQLException e)
+        {
+            System.out.println(e);
+            return new Book();
+        }
+        finally
+        {
+            DBUtil.closeResultSet(rs);
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
 }

@@ -42,7 +42,7 @@
     </servlet>
     <servlet>
         <servlet-name>MyCartServlet</servlet-name>
-        <servlet-class>servlets.MyCart</servlet-class>
+        <servlet-class>servlets.MyCartServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>

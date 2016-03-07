@@ -43,52 +43,53 @@ public class CartDB
         
     }
     
-//    public static ArrayList<> getCart(String Customer_username)
-//    {
-//        ArrayList<Cart> cart = new ArrayList<>();
-//        
-//        ConnectionPool pool = ConnectionPool.getInstance();
-//        Connection connection = pool.getConnection();
-//        PreparedStatement ps= null;
-//        ResultSet rs = null;
-//        
-//        String query = "SELECT * FROM Cart "
-//                + "WHERE Customer_username = ?";
-//        
-//        try
-//        {
-//            ps = connection.prepareStatement(query);
-//            ps.setString(1, Customer_username);
-//            rs = ps.executeQuery();
-//            
-//            if(rs.next())
-//            {
-//                //(int idProduct, double price, String category, String author,
-//            //int publishedYear, int amountInventory, String bookName) 
-//                return new Book(
-//                        rs.getInt("idProduct"),
-//                        rs.getDouble("price"),
-//                        rs.getString("category"),
-//                        rs.getString("author"),
-//                        rs.getInt("publishedYear"),
-//                        rs.getInt("amountInventory"),
-//                        rs.getString("bookName")
-//                );
-//            }
-//                
-//            return new Book();
-//        } 
-//        catch(SQLException e)
-//        {
-//            System.out.println(e);
-//            return new Book();
-//        }
-//        finally
-//        {
-//            DBUtil.closeResultSet(rs);
-//            DBUtil.closePreparedStatement(ps);
-//            pool.freeConnection(connection);
-//        }
-//    }
+    public static ArrayList<Cart> getCart(String Customer_username)
+    {
+        ArrayList<Cart> cart = new ArrayList<>();
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps= null;
+        ResultSet rs = null;
+        
+        String query = "SELECT * FROM Cart "
+                + "WHERE Customer_username = ?";
+        
+        try
+        {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, Customer_username);
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {
+                //(int idProduct, double price, String category, String author,
+                //int publishedYear, int amountInventory, String bookName) 
+                cart.add(
+                    new Cart(
+                        rs.getInt("idCart"),  
+                        rs.getInt("quantity"),  
+                        rs.getDate("date"),  
+                        rs.getInt("Books_idProduct"), 
+                        rs.getString("Customer_username")
+                    )
+                );
+                
+            }
+                
+            return cart;
+        } 
+        catch(SQLException e)
+        {
+            System.out.println(e);
+            return cart;
+        }
+        finally
+        {
+            DBUtil.closeResultSet(rs);
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
     
 }
