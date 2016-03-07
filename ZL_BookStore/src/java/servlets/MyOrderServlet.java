@@ -103,6 +103,9 @@ public class MyOrderServlet extends HttpServlet {
             out.println("</div>");
             out.println("</div>");
             out.println("<div class=\"left\">");
+            out.println("<a href=\"http://www.localhost:8080/ZL_BookStore/MyCart\" id=\\\"myCart\\\">myCart</a><hr/>"
+                    + "<a href=\"http://www.localhost:8080/ZL_BookStore/MyOrder\" id=\\\"myCart\\\">myOrder</a><hr/>"
+                    + "<a href=\"http://www.localhost:8080/ZL_BookStore/LogOut\" id=\\\"myCart\\\">logOut</a><hr/>");
             out.println("</div>");
             out.println("</html>");
         }
