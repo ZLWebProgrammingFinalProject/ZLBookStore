@@ -5,8 +5,7 @@
  */
 package servlets;
 
-import data.BookDB;
-import data.CartDB;
+import data.TransactionDB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -15,14 +14,14 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import models.Cart;
+import models.Transaction;
 import util.CookieUtil;
 
 /**
  *
  * @author jin3lee
  */
-public class MyCartServlet extends HttpServlet {
+public class ConfirmPurchaseServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +36,26 @@ public class MyCartServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
+        // initialize variable
+        Cookie[] cookies = request.getCookies();
+        
+        // get username
+        String username = CookieUtil.getCookieValue(cookies, "currentUserLoggedIn");
+        
+        // create transaction objects
+        ArrayList<Transaction> transactions = TransactionDB.getTransactions(username);
+        
+        // insert transaction into db
+        
+        
+        // remove all carts
+        
+        
+        
+        
         
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
+           out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
             out.println("<title>ZL BookStore - Search Results</title>");
@@ -76,21 +91,8 @@ public class MyCartServlet extends HttpServlet {
             out.println("</div>");
             out.println("</div>");
             out.println("<div class=\"main\">");
+            out.println("<h1>Purchase was Successful!</h1>");
             
-            Cookie[] cookies = request.getCookies();
-            String Customer_username = CookieUtil.getCookieValue(cookies, "currentUserLoggedIn");
-            
-            ArrayList<Cart> carts = CartDB.getCart(Customer_username);
-            for(int i = 0; i < carts.size(); i++)
-            {
-                out.println(
-                        "BookId="+ carts.get(i).getBooks_idProduct()
-                        + "BookName=" + BookDB.getBook(carts.get(i).getBooks_idProduct()).getBookName()
-                        + "Date=" + carts.get(i).getDate()
-                        + "Quantity=" + carts.get(i).getQuantity());
-                out.println("<br />");
-            }
-            out.println("<form action=\"ConfirmPurchase\">\n  <input type=\"submit\" value=\"Purchase\">\n</form> ");
             out.println("</div>");
             out.println("</div>");
             out.println("<div class=\"left\">");
