@@ -5,12 +5,19 @@
  */
 package servlets;
 
+import data.BookDB;
+import data.TransactionDB;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.Cart;
+import models.Transaction;
+import util.CookieUtil;
 
 /**
  *
@@ -30,16 +37,73 @@ public class MyOrderServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        // get username
+        Cookie[] cookies = request.getCookies();
+        String Customer_username = CookieUtil.getCookieValue(cookies, "currentUserLoggedIn");
+
+        // get transactions
+        ArrayList<Transaction> transactions = TransactionDB.getTransactions(Customer_username);
+
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet MyOrderServlet</title>");            
+            out.println("<title>ZL BookStore - Search Results</title>");
+            out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"http://localhost:8080/ZL_BookStore/styles/lzStyles.css\">");
             out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet MyOrderServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
+    
+            out.println("<div class=\"top\">");
+            out.println("<p id=\"companyName\">ZL Book Store</p> ");
+            out.println("<div id=\"header\">");
+            out.println("<form action=\"http://www.localhost:8080/ZL_BookStore/Search\" method=\"post\" >");
+            out.println("<input name=\"searchWords\" type=\"search\" placeholder=\"Book name\"/>");
+            out.println("<select name=\"books\">");
+            out.println("<option value=\"all\" selected=\"selected\">all</option>");
+            out.println("<option value=\"Education\">Education</option>");
+            out.println("<option value=\"SciFi\">SciFi</option>");
+            out.println("<option value=\"Romance\">Romance</option>");
+            out.println("<option value=\"Classic\">Classic</option>");
+            out.println("<option value=\"Kids\">Kids</option>");
+            out.println("</select>");
+            out.println("<input type=\"submit\" value=\"Search\"/>");
+            out.println("</form>");
+            out.println("<br />");
+            out.println("</div>");
+
+            out.println("<div id=\"user\">");
+            out.println("<a href=\"http://www.localhost:8080/ZL_BookStore/htmls/CreateAccount.html\" id=\"createAccount\">Create new account</a> |");
+            out.println("<a href=\"http://www.localhost:8080/ZL_BookStore/htmls/login.html\" id=\"login\" >Login</a><br/>");
+            out.println("</div>");
+
+            out.println("<div id=\"myAccount\">");
+            out.println("<a href=\"http://www.localhost:8080/ZL_BookStore/redirect.jsp\" id=\"homePage\">Home page</a> |");
+            out.println("<a href=\"http://www.localhost:8080/ZL_BookStore/MyAccount\" id=\"account\">My account</a>");
+            out.println("</div>");
+            out.println("</div>");
+            out.println("<div class=\"main\">");
+            out.println("<table border=\"1\">");
+            out.println("<tr>");
+            out.println("<td>Date</td>");
+            out.println("<td>Book Name</td>");
+            out.println("<td>Quantity</td>");
+            out.println("<td>Price</td>");
+            out.println("</tr>");
+            for(int i = 0; i < transactions.size(); i++)
+            {
+                out.println("<tr>");
+                out.println("<td>"+transactions.get(i).getDate()+"</td>");
+                out.println("<td>"+BookDB.getBook(transactions.get(i).getBooks_idProduct()).getBookName()+"</td>");
+                out.println("<td>"+transactions.get(i).getQuantity()+"</td>");
+                out.println("<td>$"+transactions.get(i).getPrice()+"</td>");
+                out.println("</tr>");
+            }
+            out.println("</table>");
+            out.println("</div>");
+            out.println("</div>");
+            out.println("<div class=\"left\">");
+            out.println("</div>");
             out.println("</html>");
         }
     }

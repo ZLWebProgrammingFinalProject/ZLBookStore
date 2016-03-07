@@ -6,6 +6,7 @@
 package data;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -47,7 +48,6 @@ public class TransactionDB
         
     }
     
-    
     public static void insert(ArrayList<Cart> carts)
     {
         for(int i = 0; i < carts.size(); i++)
@@ -86,14 +86,21 @@ public class TransactionDB
             {
                 //(int idProduct, double price, String category, String author,
                 //int publishedYear, int amountInventory, String bookName) 
+                int idTransaction = rs.getInt("idTransactions");
+                Date date = rs.getDate("date");
+                double price = rs.getDouble("price");
+                int quantity = rs.getInt("quantity");
+                String username = rs.getString("Customer_username");
+                int Books_idProduct = rs.getInt("Books_idProduct");
+                
                 transactions.add(
                     new Transaction(
-                        rs.getInt("idTransaction"),  
-                        rs.getDate("date"),  
-                        rs.getDouble("price"),  
-                        rs.getInt("quantity"), 
-                        rs.getString("Customer_username"), 
-                        rs.getInt("Books_idProduct")
+                        idTransaction,
+                            date,
+                            price,
+                            quantity,
+                            username,
+                            Books_idProduct
                     )
                 );
                 
