@@ -6,20 +6,23 @@
 package servlets;
 
 import data.BookDB;
+import data.CartDB;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import models.Book;
+import util.CookieUtil;
 
 /**
  *
  * @author jin3lee
  */
-public class SearchServlet extends HttpServlet {
+public class ViewAllBooksServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,16 +36,6 @@ public class SearchServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        String params = "nothing yet";
-        
-        
-         if(request.getParameter("searchWords")!= null)
-        {
-            params = request.getParameter("searchWords");
-        }
-        
-        
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -81,40 +74,46 @@ public class SearchServlet extends HttpServlet {
             out.println("</div>");
             out.println("</div>");
             out.println("<div class=\"main\">");
-            out.println("<div class=\"bookName\">");
-            if(BookDB.bookExists(params))
+            
+
+            
+            ArrayList<Book> books = BookDB.getAllBooks();
+            
+            out.println("<table border=\"1\">");
+            
+            out.println("<tr>");
+            out.println("<td>Book ID</td>");
+            out.println("<td>Title</td>");
+            out.println("<td>Author</td>");
+            out.println("<td>Category</td>");
+            out.println("<td>Published Year</td>");
+            out.println("<td>Price</td>");
+            out.println("</tr>");
+            for(int i = 0; i < books.size(); i++)
             {
-               Book book = BookDB.getBook(params);
-               out.println("<h1>"+book.getBookName()+"</h1>");
-               out.println("<br />");
-               out.println("Author: " + book.getAuthor());
-               out.println("Category: " + book.getCategory());
-               out.println("Price: " + book.getPrice());
-               out.println("Published Year: " + book.getPublishedYear());
-               out.println("<form action=\"http://www.localhost:8080/ZL_BookStore/AddToCart\" method=\"post\" >");
-               out.println("<select name=\"count\">\\n    "
-                       + "<option value=\"1\">1</option>\n    "
-                       + "<option value=\"2\">2</option>\n"
-                       + "<option value=\"3\">3</option>\n    "
-                       + "<option value=\"4\">4</option>\n"
-                       + "<option value=\"5\">5</option>\n    "
-                       + "<option value=\"6\">6</option>\n"
-                       + "<option value=\"7\">7</option>\n    "
-                       + "<option value=\"8\">8</option>\n"
-                       + "<option value=\"9\">9</option>\n    "
-                       + "<option value=\"10\">10</option>\n  </select>");
-               out.println("<input type=\"hidden\" name=\"Books_idProduct\" value=\""+book.getIdProduct()+"\">");
-               out.println("<input type=\"submit\" value=\"ADD to Cart\"/>");
-               out.println("</form>");
-               
+                
+                out.println("<tr>");
+                out.println("<td>"+books.get(i).getIdProduct()+"</td>");
+                out.println("<td>"+books.get(i).getBookName()+"</td>");
+                out.println("<td>"+books.get(i).getAuthor()+"</td>");
+                out.println("<td>"+books.get(i).getCategory()+"</td>");
+                out.println("<td>"+books.get(i).getPublishedYear()+"</td>");
+                out.println("<td>"+books.get(i).getPrice()+"</td>");
+                out.println("<td><form action=\"http://www.localhost:8080/ZL_BookStore/AddToCart\" method=\"post\" >");
+                    out.println("<input type=\"hidden\" name=\"Books_idProduct\" value=\""+books.get(i).getIdProduct()+"\"\">");
+                    out.println("<input type=\"hidden\" name=\"count\" value=\"1\">");
+                    out.println("<input type=\"submit\" value=\"Add to Cart\"/>");
+                    out.println("</form></td>");
+                out.println("</tr>");
             }
-            else
-            {
-                out.println("<h1> Sorry, We couldn't find the book:"+params+"</h1>");
-            }
+            out.println("</table>");
+            
             out.println("</div>");
             out.println("</div>");
             out.println("<div class=\"left\">");
+//            out.println("<a href=\"http://www.localhost:8080/ZL_BookStore/MyCart\" id=\\\"myCart\\\">myCart</a><hr/>"
+//                    + "<a href=\"http://www.localhost:8080/ZL_BookStore/MyOrder\" id=\\\"myCart\\\">myOrder</a><hr/>"
+//                    + "<a href=\"http://www.localhost:8080/ZL_BookStore/LogOut\" id=\\\"myCart\\\">logOut</a><hr/>");
             out.println("</div>");
             out.println("</html>");
         }

@@ -7,6 +7,7 @@ package data;
 
 import util.DBUtil;
 import java.sql.*;
+import java.util.ArrayList;
 import models.Book;
 
 import models.Customer;
@@ -177,6 +178,7 @@ public class BookDB {
             pool.freeConnection(connection);
         }
     }
+    
     public static Book getBook(int idProduct)
     {
         int book;
@@ -216,6 +218,55 @@ public class BookDB {
         {
             System.out.println(e);
             return new Book();
+        }
+        finally
+        {
+            DBUtil.closeResultSet(rs);
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
+    
+    public static ArrayList<Book> getAllBooks()
+    {
+        ArrayList<Book> books = new ArrayList<>();
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps= null;
+        ResultSet rs = null;
+        
+        String query = "SELECT * FROM Books";
+        
+        try
+        {
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {
+                //(int idProduct, double price, String category, String author,
+            //int publishedYear, int amountInventory, String bookName) 
+                books.add(
+                    new Book
+                    (
+                        rs.getInt("idProduct"),
+                        rs.getDouble("price"),
+                        rs.getString("category"),
+                        rs.getString("author"),
+                        rs.getInt("publishedYear"),
+                        rs.getInt("amountInventory"),
+                        rs.getString("bookName")
+                    )
+                );
+            }
+                
+            return books;
+        } 
+        catch(SQLException e)
+        {
+            System.out.println(e);
+            return books;
         }
         finally
         {

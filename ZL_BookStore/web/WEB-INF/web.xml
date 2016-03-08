@@ -52,6 +52,10 @@
         <servlet-name>SubmitRatingServlet</servlet-name>
         <servlet-class>servlets.SubmitRatingServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewAllBooksServlet</servlet-name>
+        <servlet-class>servlets.ViewAllBooksServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.htm</url-pattern>
@@ -95,6 +99,10 @@
     <servlet-mapping>
         <servlet-name>SubmitRatingServlet</servlet-name>
         <url-pattern>/SubmitRating</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewAllBooksServlet</servlet-name>
+        <url-pattern>/ViewAllBooks</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

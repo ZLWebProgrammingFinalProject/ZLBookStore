@@ -60,11 +60,9 @@ public class AddToCartServlet extends HttpServlet {
         String count = request.getParameter("count");
         quantity = Integer.parseInt(count);
         date = new Date(dateTime.getYear(), dateTime.getMonthOfYear(), dateTime.getDayOfMonth());
-        Books_idProduct = Integer.parseInt(CookieUtil.getCookieValue(cookies, "Books_idProduct"));
+        Books_idProduct = Integer.parseInt(request.getParameter("Books_idProduct"));
         Customer_username = CookieUtil.getCookieValue(cookies, "currentUserLoggedIn");
         
-        // delete user book cookie
-        CookieUtil.deleteCookie(request, response, "Books_idProduct");
         
         String hasConnected = "false";
         
@@ -97,7 +95,7 @@ public class AddToCartServlet extends HttpServlet {
         // check if there is someone logged in
         if(!CookieUtil.getCookieValue(cookies, "currentUserLoggedIn").equals(""))
         {
-            response.sendRedirect("http://localhost:8080/ZL_BookStore/MyCart");
+            response.sendRedirect("http://localhost:8080/ZL_BookStore/htmls/confirmAddToCart.html");
         }
         else
         {
