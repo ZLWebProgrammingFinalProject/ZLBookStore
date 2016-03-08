@@ -46,7 +46,6 @@ public class LoginServlet extends HttpServlet {
         username = request.getParameter("username");
         password = request.getParameter("password");
         
-        
         try
         {
             Class.forName("org.gjt.mm.mysql.Driver");

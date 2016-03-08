@@ -91,4 +91,35 @@ public class CartDB
         }
     }
     
+    
+    public static int deleteCart(String Customer_username)
+    {
+        ArrayList<Cart> cart = new ArrayList<>();
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps= null;
+        ResultSet rs = null;
+        
+        String query = "DELETE FROM Cart "
+                + "WHERE Customer_username = '"+Customer_username+"'";
+        
+        try
+        {
+            ps = connection.prepareStatement(query);
+            return ps.executeUpdate();
+        } 
+        catch(SQLException e)
+        {
+            System.out.println(e);
+            return -1;
+        }
+        finally
+        {
+            DBUtil.closeResultSet(rs);
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
+    
 }

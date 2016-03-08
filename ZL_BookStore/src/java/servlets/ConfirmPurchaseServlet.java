@@ -51,6 +51,7 @@ public class ConfirmPurchaseServlet extends HttpServlet {
         TransactionDB.insert(carts);
         
         // remove all carts
+        CartDB.deleteCart(username);
         
         
         try (PrintWriter out = response.getWriter()) {
