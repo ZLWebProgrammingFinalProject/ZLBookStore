@@ -76,13 +76,23 @@ public class ViewAllBooksServlet extends HttpServlet {
             out.println("<div class=\"main\">");
             
 
-            
-            ArrayList<Book> books = BookDB.getAllBooks();
-            
             out.println("<table border=\"1\">");
-            
             out.println("<tr>");
-            out.println("<td>Book ID</td>");
+            out.println("<td>Book ID");
+            out.println("<form action=\"http://www.localhost:8080/ZL_BookStore/ViewAllBooks\" method=\"post\">");
+            out.println("<select name=\"idProduct\">\n");     
+                for(int j = 1; j <= BookDB.getBookIdCount(); j++)
+                {
+                    out.println("<option value=\""+j+"\">"+j+"</option>");
+                }
+            out.println("</select>"
+                    + "<input type=\"hidden\" name=\"filter\" value=\"1\"/>"
+                    + "<input type=\"submit\" value=\"Search\"/>"
+                    + "<form>");
+            out.println("</td>");
+                    
+                                
+                                
             out.println("<td>Title</td>");
             out.println("<td>Author</td>");
             out.println("<td>Category</td>");
@@ -90,24 +100,26 @@ public class ViewAllBooksServlet extends HttpServlet {
             out.println("<td>Price</td>");
             out.println("<td>Stock</td>");
             out.println("</tr>");
-            for(int i = 0; i < books.size(); i++)
+            
+            if(request.getParameter("filter") == null)
             {
                 
-                out.println("<tr>");
-                out.println("<td>"+books.get(i).getIdProduct()+"</td>");
-                out.println("<td>"+books.get(i).getBookName()+"</td>");
-                out.println("<td>"+books.get(i).getAuthor()+"</td>");
-                out.println("<td>"+books.get(i).getCategory()+"</td>");
-                out.println("<td>"+books.get(i).getPublishedYear()+"</td>");
-                out.println("<td>"+books.get(i).getPrice()+"</td>");
-                out.println("<td>"+books.get(i).getAmountInventory()+"</td>");
-                out.println("<td><form action=\"http://www.localhost:8080/ZL_BookStore/AddToCart\" method=\"post\" >");
-                    out.println("<input type=\"hidden\" name=\"Books_idProduct\" value=\""+books.get(i).getIdProduct()+"\"\">");
-                    out.println("<input type=\"hidden\" name=\"count\" value=\"1\">");
-                    out.println("<input type=\"submit\" value=\"Add to Cart\"/>");
-                    out.println("</form></td>");
-                out.println("</tr>");
+                    filterDefault(out);
             }
+            else
+            {
+                switch(Integer.parseInt(request.getParameter("filter")))
+            {
+                // displays all books
+                case 1:
+                    filterDefault(out);
+                    break;
+                default:
+                    filterDefault(out);
+                    break;
+            }
+            }
+            
             out.println("</table>");
             
             out.println("</div>");
@@ -129,6 +141,31 @@ public class ViewAllBooksServlet extends HttpServlet {
             out.println("</html>");
         }
     }
+    
+    // displays all books
+    private void filterDefault(PrintWriter out)
+    {
+        ArrayList<Book> books = BookDB.getAllBooks();
+        
+        for(int i = 0; i < books.size(); i++)
+            {
+                out.println("<tr>");
+                out.println("<td>"+books.get(i).getIdProduct()+"</td>");
+                out.println("<td>"+books.get(i).getBookName()+"</td>");
+                out.println("<td>"+books.get(i).getAuthor()+"</td>");
+                out.println("<td>"+books.get(i).getCategory()+"</td>");
+                out.println("<td>"+books.get(i).getPublishedYear()+"</td>");
+                out.println("<td>"+books.get(i).getPrice()+"</td>");
+                out.println("<td>"+books.get(i).getAmountInventory()+"</td>");
+                out.println("<td><form action=\"http://www.localhost:8080/ZL_BookStore/AddToCart\" method=\"post\" >");
+                    out.println("<input type=\"hidden\" name=\"Books_idProduct\" value=\""+books.get(i).getIdProduct()+"\"\">");
+                    out.println("<input type=\"hidden\" name=\"count\" value=\"1\">");
+                    out.println("<input type=\"submit\" value=\"Add to Cart\"/>");
+                    out.println("</form></td>");
+                out.println("</tr>");
+            }
+    }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

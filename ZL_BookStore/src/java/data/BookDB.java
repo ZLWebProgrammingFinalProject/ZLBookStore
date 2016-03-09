@@ -168,6 +168,42 @@ public class BookDB {
         }
     }
     
+    public static int getBookIdCount()
+    {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps= null;
+        ResultSet rs = null;
+        
+        String query = "SELECT Count(idProduct)\n" +
+                       "From Books";
+        
+        int inventoryCount = 0;
+        
+        try
+        {
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {
+               inventoryCount = rs.getInt("Count(idProduct)");
+            }
+            return inventoryCount;
+        } 
+        catch(SQLException e)
+        {
+            System.out.println(e);
+            return inventoryCount;
+        }
+        finally
+        {
+            DBUtil.closeResultSet(rs);
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
+    
     public static Book getBook(String bookName)
     {
         Book book;
