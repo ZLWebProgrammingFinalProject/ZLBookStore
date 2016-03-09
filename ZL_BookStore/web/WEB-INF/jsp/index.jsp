@@ -43,7 +43,11 @@
     
     
     <div class="left">
-        <a href="http://www.localhost:8080/ZL_BookStore/ViewAllBooks" id="account">View All Books</a>
+        <br />
+        <a href="http://www.localhost:8080/ZL_BookStore/ViewAllBooks" style="text-decoration:none;" id='index_side'>View All Books</a><br /><br />
+        <a href="http://www.localhost:8080/ZL_BookStore/ViewAllBooks" style="text-decoration:none;" id='index_side'>View Top 10 Best Sellers</a><br /><br />
+        <a href="http://www.localhost:8080/ZL_BookStore/ViewAllBooks" style="text-decoration:none;" id='index_side'>View Top 5 By Category</a><br /><br />
+        
     </div>
     
 <body>
