@@ -105,12 +105,17 @@ public class TopTenBooksServlet extends HttpServlet {
             out.println("</div>");
             out.println("</div>");
             out.println("<div class=\"left\">");
-            out.println("<br /><a style=\\\"text-decoration:none;\\\" href=\\\"http://www.localhost:8080/ZL_BookStore/ViewAllBooks\\\""
-                    + " style=\\\"text-decoration:none;\\\" id=\\'index_side\\'>View All Books</a><br /><br />"
-                    + "      <a style=\\\"text-decoration:none;\\\" href=\\\"http://www.localhost:8080/ZL_BookStore/ViewAllBooks\\\" "
-                    + "style=\\\"text-decoration:none;\\\" id=\\'index_side\\'>View Top 10 Best Sellers</a><br /><br />"
-                    + "       <a style=\\\"text-decoration:none;\\\" href=\\\"http://www.localhost:8080/ZL_BookStore/ViewAllBooks\\\" "
-                    + "style=\\\"text-decoration:none;\\\" id=\\'index_side\\'>View Top 5 By Category</a><br /><br />        ");
+            out.println("<br />"
+                    + "<a style=\"text-decoration:none;\" href=\"http://www.localhost:8080/ZL_BookStore/ViewAllBooks\""
+                    + " style=\"text-decoration:none;\" id=\'index_side\'>View All Books</a>"
+                    + "<br />"
+                    + "<br />"
+                    + "<a style=\"text-decoration:none;\" href=\"http://www.localhost:8080/ZL_BookStore/TopTenBooks\""
+                    + "style=\"text-decoration:none;\" id=\'index_side\'>View Top 10 Best Sellers</a>"
+                    + "<br />"
+                    + "<br />"
+                    + "<a style=\"text-decoration:none;\" href=\"http://www.localhost:8080/ZL_BookStore/TopFiveByCategory\""
+                    + "style=\"text-decoration:none;\" id=\'index_side\'>View Top 5 By Category</a><br /><br />");
             out.println("</div>");
             out.println("</html>");
         }
