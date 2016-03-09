@@ -63,7 +63,6 @@ public class AddToCartServlet extends HttpServlet {
         Books_idProduct = Integer.parseInt(request.getParameter("Books_idProduct"));
         Customer_username = CookieUtil.getCookieValue(cookies, "currentUserLoggedIn");
         
-        
         String hasConnected = "false";
         
         try

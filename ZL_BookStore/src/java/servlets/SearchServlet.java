@@ -92,17 +92,7 @@ public class SearchServlet extends HttpServlet {
                out.println("Price: " + book.getPrice());
                out.println("Published Year: " + book.getPublishedYear());
                out.println("<form action=\"http://www.localhost:8080/ZL_BookStore/AddToCart\" method=\"post\" >");
-               out.println("<select name=\"count\">\\n    "
-                       + "<option value=\"1\">1</option>\n    "
-                       + "<option value=\"2\">2</option>\n"
-                       + "<option value=\"3\">3</option>\n    "
-                       + "<option value=\"4\">4</option>\n"
-                       + "<option value=\"5\">5</option>\n    "
-                       + "<option value=\"6\">6</option>\n"
-                       + "<option value=\"7\">7</option>\n    "
-                       + "<option value=\"8\">8</option>\n"
-                       + "<option value=\"9\">9</option>\n    "
-                       + "<option value=\"10\">10</option>\n  </select>");
+               out.println("<input type=\"hidden\" name=\"count\" value=\""+1+"\">");
                out.println("<input type=\"hidden\" name=\"Books_idProduct\" value=\""+book.getIdProduct()+"\">");
                out.println("<input type=\"submit\" value=\"ADD to Cart\"/>");
                out.println("</form>");
