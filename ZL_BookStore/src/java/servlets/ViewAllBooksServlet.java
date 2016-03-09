@@ -77,28 +77,18 @@ public class ViewAllBooksServlet extends HttpServlet {
             
 
             out.println("<table border=\"1\">");
+            
             out.println("<tr>");
-            out.println("<td>Book ID");
-            out.println("<form action=\"http://www.localhost:8080/ZL_BookStore/ViewAllBooks\" method=\"post\">");
-            out.println("<select name=\"idProduct\">\n");     
-                for(int j = 1; j <= BookDB.getBookIdCount(); j++)
-                {
-                    out.println("<option value=\""+j+"\">"+j+"</option>");
-                }
-            out.println("</select>"
-                    + "<input type=\"hidden\" name=\"filter\" value=\"1\"/>"
-                    + "<input type=\"submit\" value=\"Search\"/>"
-                    + "<form>");
-            out.println("</td>");
-                    
-                                
-                                
+            
+            SearchByBookID(out);
+            SearchByTitle(out);
             out.println("<td>Title</td>");
             out.println("<td>Author</td>");
             out.println("<td>Category</td>");
             out.println("<td>Published Year</td>");
             out.println("<td>Price</td>");
             out.println("<td>Stock</td>");
+            
             out.println("</tr>");
             
             if(request.getParameter("filter") == null)
@@ -142,6 +132,37 @@ public class ViewAllBooksServlet extends HttpServlet {
         }
     }
     
+    private void SearchByTitle(PrintWriter out)
+    {
+        out.println("<td>Title");
+        out.println("<br />");
+        out.println("<form action=\"#\" method=\"post\">");
+        out.println("<input type=\"hidden\" name=\"filter\" value=\"2\"/>");
+        out.println("<input type=\"submit\" value=\"A->Z\">");
+        out.println("</form>");
+        out.println("<form action=\"#\" method=\"post\">");
+        out.println("<input type=\"hidden\" name=\"filter\" value=\"3\"/>");
+        out.println("<input type=\"submit\" value=\"Z->A\">");
+        out.println("</form>");
+        
+        out.println("</td>");
+                
+    }
+    private void SearchByBookID(PrintWriter out)
+    {
+            out.println("<td>Book ID");
+            out.println("<form action=\"http://www.localhost:8080/ZL_BookStore/ViewAllBooks\" method=\"post\">");
+            out.println("<select name=\"idProduct\">\n");     
+                for(int j = 1; j <= BookDB.getBookIdCount(); j++)
+                {
+                    out.println("<option value=\""+j+"\">"+j+"</option>");
+                }
+            out.println("</select>"
+                    + "<input type=\"hidden\" name=\"filter\" value=\"1\"/>"
+                    + "<input type=\"submit\" value=\"Search\"/>"
+                    + "<form>");
+            out.println("</td>");
+    }
     // displays all books
     private void filterDefault(PrintWriter out)
     {
