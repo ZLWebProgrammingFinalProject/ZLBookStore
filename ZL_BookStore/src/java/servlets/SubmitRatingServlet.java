@@ -54,20 +54,7 @@ public class SubmitRatingServlet extends HttpServlet {
         // insert rating into db
         RatingDB.insert(rating);
         
-        try (PrintWriter out = response.getWriter()) 
-        {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet SubmitRatingServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Book_idProduct:"+Book_idProduct+", Rating="+rating+"</h1>");
-            out.println("<h1>Servlet SubmitRatingServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        response.sendRedirect("/ZL_BookStore/MyOrder");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -25,6 +25,7 @@ import models.Cart;
 import models.Customer;
 import org.joda.time.LocalDateTime;
 import util.CookieUtil;
+import util.DateUtil;
 
 /**
  *
@@ -59,7 +60,7 @@ public class AddToCartServlet extends HttpServlet {
         // set variables
         String count = request.getParameter("count");
         quantity = Integer.parseInt(count);
-        date = new Date(0);
+        date = DateUtil.getDate();
         Books_idProduct = Integer.parseInt(request.getParameter("Books_idProduct"));
         Customer_username = CookieUtil.getCookieValue(cookies, "currentUserLoggedIn");
         
