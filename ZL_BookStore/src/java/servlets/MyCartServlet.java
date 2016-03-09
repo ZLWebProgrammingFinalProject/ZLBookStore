@@ -79,7 +79,6 @@ public class MyCartServlet extends HttpServlet {
             
             Cookie[] cookies = request.getCookies();
             String Customer_username = CookieUtil.getCookieValue(cookies, "currentUserLoggedIn");
-            
             ArrayList<Cart> carts = CartDB.getCart(Customer_username);
             
             
@@ -97,12 +96,27 @@ public class MyCartServlet extends HttpServlet {
                 out.println("<td>"+carts.get(i).getBooks_idProduct()+"</td>");
                 out.println("<td>"+BookDB.getBook(carts.get(i).getBooks_idProduct()).getBookName()+"</td>");
                 out.println("<td>"+carts.get(i).getDate()+"</td>");
-                out.println("<td>"+carts.get(i).getQuantity()+"</td>");
+                out.println("<td>");
+                         out.println("<form action=\"ConfirmPurchase\">"
+                       + "<select name=\"rating\">\n");
+                         
+                         
+                    for(int j = 1; j < BookDB.getBookInventoryCount(carts.get(i).getBooks_idProduct()); j++)
+                    {
+                        out.println("<option value=\""+j+"\">"+j+"</option>");
+                    }
+                         
+                        out.println("</select>"
+                       + "<input type=\"submit\" value=\"Purchase\">"
+                      + "</form> ");
+                        out.println("</td>");
                 out.println("</tr>");   
+                
+                
+                
+                    
             }
             out.println("</table>");
-            
-            out.println("<form action=\"ConfirmPurchase\">\n  <input type=\"submit\" value=\"Purchase\">\n</form> ");
             out.println("</div>");
             out.println("</div>");
             out.println("<div class=\"left\">");

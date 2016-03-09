@@ -88,6 +88,7 @@ public class ViewAllBooksServlet extends HttpServlet {
             out.println("<td>Category</td>");
             out.println("<td>Published Year</td>");
             out.println("<td>Price</td>");
+            out.println("<td>Stock</td>");
             out.println("</tr>");
             for(int i = 0; i < books.size(); i++)
             {
@@ -99,6 +100,7 @@ public class ViewAllBooksServlet extends HttpServlet {
                 out.println("<td>"+books.get(i).getCategory()+"</td>");
                 out.println("<td>"+books.get(i).getPublishedYear()+"</td>");
                 out.println("<td>"+books.get(i).getPrice()+"</td>");
+                out.println("<td>"+books.get(i).getAmountInventory()+"</td>");
                 out.println("<td><form action=\"http://www.localhost:8080/ZL_BookStore/AddToCart\" method=\"post\" >");
                     out.println("<input type=\"hidden\" name=\"Books_idProduct\" value=\""+books.get(i).getIdProduct()+"\"\">");
                     out.println("<input type=\"hidden\" name=\"count\" value=\"1\">");
