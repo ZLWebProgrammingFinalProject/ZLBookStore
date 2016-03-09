@@ -31,8 +31,20 @@ public class TopFiveByCategoryServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException 
+    {
         response.setContentType("text/html;charset=UTF-8");
+            
+        String category = "Romance";
+        if(request.getParameter("category") == null)
+        {
+            category = "Romance";
+        }
+        else
+        {
+            category = request.getParameter("category");
+        }
+        
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             /* TODO output your page here. You may use following sample code. */
@@ -65,10 +77,26 @@ public class TopFiveByCategoryServlet extends HttpServlet {
             out.println("</div>");
             out.println("<div class=\"main\">");
             
-            ArrayList<Book> books = BookDB.getFiveByCategory("Romance");
+            ArrayList<Book> books = BookDB.getFiveByCategory(category);
+            
             
             out.println("<table border=\"1\">");
             
+            out.println("<tr>");
+            out.println("<td>Romance</td>");
+            out.println("<td>Classic</td>");
+            out.println("<td>Scifi</td>");
+            out.println("<td>Kids</td>");
+            out.println("<td>Education</td>");
+            out.println("<td>Music</td>");
+            out.println("</tr>");
+            out.println("</table>");
+            
+            
+            out.println("<br />");
+            out.println("<h1> Top 5 Best Sellers of "+category+"</h1>");
+            out.println("<br />");
+            out.println("<table border=\"1\">");
             out.println("<tr>");
             out.println("<td>Rank</td>");
             out.println("<td>Title</td>");
