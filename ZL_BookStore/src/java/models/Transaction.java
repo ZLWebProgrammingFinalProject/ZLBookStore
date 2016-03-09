@@ -21,8 +21,9 @@ public class Transaction implements Serializable
     int quantity;
     String Customer_username;
     int Books_idProduct;
+    String category;
     
-    public Transaction(int idTransactions, Date date, double price, int quantity, String Customer_username, int Books_idProduct)
+    public Transaction(int idTransactions, Date date, double price, int quantity, String Customer_username, int Books_idProduct, String category)
     {
         this.idTransactions = idTransactions;
         this.date = date;
@@ -32,7 +33,7 @@ public class Transaction implements Serializable
         this.Books_idProduct = Books_idProduct;
     }
     
-    public Transaction(Date date, double price, int quantity, String Customer_username, int Books_idProduct)
+    public Transaction(Date date, double price, int quantity, String Customer_username, int Books_idProduct, String category)
     {
         this.idTransactions = idTransactions;
         this.date = date;

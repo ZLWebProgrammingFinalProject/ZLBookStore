@@ -65,9 +65,7 @@ public class TopFiveByCategoryServlet extends HttpServlet {
             out.println("</div>");
             out.println("<div class=\"main\">");
             
-
-            
-            ArrayList<Book> books = BookDB.getTopTenBestSellers();
+            ArrayList<Book> books = BookDB.getFiveByCategory("Romance");
             
             out.println("<table border=\"1\">");
             

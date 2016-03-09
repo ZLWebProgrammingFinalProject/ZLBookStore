@@ -357,4 +357,48 @@ public class BookDB {
             pool.freeConnection(connection);
         }
     }
+    
+    public static ArrayList<Book> getFiveByCategory(String category)
+    {
+        ArrayList<Book> books = new ArrayList<>();
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps= null;
+        ResultSet rs = null;
+        
+        String query = "SELECT Count(idTransactions), Books_idProduct\n" +
+                        "From Transactions WHERE category='"+category+"'\n" +
+                        "GROUP BY Books_idProduct\n" +
+                        "ORDER BY Count(idTransactions) DESC"
+                + " LIMIT 10";
+        
+        try
+        {
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {
+                //(int idProduct, double price, String category, String author,
+                //int publishedYear, int amountInventory, String bookName) 
+                int Books_idProduct = rs.getInt("Books_idProduct");
+                
+                books.add(BookDB.getBook(Books_idProduct));
+            }
+                
+            return books;
+        } 
+        catch(SQLException e)
+        {
+            System.out.println(e);
+            return books;
+        }
+        finally
+        {
+            DBUtil.closeResultSet(rs);
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
 }

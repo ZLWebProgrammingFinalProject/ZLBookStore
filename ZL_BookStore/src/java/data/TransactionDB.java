@@ -29,7 +29,7 @@ public class TransactionDB
         PreparedStatement ps = null;
         
         String query
-                = "INSERT INTO Transactions(dateOfTransaction, price, quantity, Customer_username, Books_idProduct)"+"VALUE(?,?,?,?,?)";
+                = "INSERT INTO Transactions(dateOfTransaction, price, quantity, Customer_username, Books_idProduct, category)"+"VALUE(?,?,?,?,?,?)";
         try {
             ps = connection.prepareStatement(query);
             ps.setString(1, ""+transaction.getDate());
@@ -37,6 +37,7 @@ public class TransactionDB
             ps.setString(3, ""+transaction.getQuantity());
             ps.setString(4, ""+transaction.getCustomer_username());
             ps.setString(5, ""+transaction.getBooks_idProduct());
+            ps.setString(6, ""+BookDB.getBook(transaction.getBooks_idProduct()).getCategory());
             
             return ps.executeUpdate();
         } catch (SQLException e){
@@ -57,11 +58,13 @@ public class TransactionDB
             //Date date, double price, int quantity, String Customer_username, int Books_idProduct
             TransactionDB.insert(
                     new Transaction(
-                            cart.getDate(), 
-                            BookDB.getBook(cart.getBooks_idProduct()).getPrice() * cart.getQuantity(), 
-                            cart.getQuantity(), 
-                            cart.getCustomer_username(), 
-                            cart.getBooks_idProduct()));
+                        cart.getDate(), 
+                        BookDB.getBook(cart.getBooks_idProduct()).getPrice() * cart.getQuantity(), 
+                        cart.getQuantity(), 
+                        cart.getCustomer_username(), 
+                        cart.getBooks_idProduct(),
+                        BookDB.getBook(cart.getBooks_idProduct()).getCategory()
+                ));
         }
     }
     
@@ -77,7 +80,9 @@ public class TransactionDB
                         BookDB.getBook(cart.getBooks_idProduct()).getPrice() * cart.getQuantity(), 
                         cart.getQuantity(), 
                         cart.getCustomer_username(), 
-                        cart.getBooks_idProduct()));
+                        cart.getBooks_idProduct(),
+                        BookDB.getBook(cart.getBooks_idProduct()).getCategory()
+                ));
 
     }
     
@@ -117,7 +122,8 @@ public class TransactionDB
                             price,
                             quantity,
                             username,
-                            Books_idProduct
+                            Books_idProduct,
+                            BookDB.getBook(Books_idProduct).getCategory()
                     )
                 );
                 
