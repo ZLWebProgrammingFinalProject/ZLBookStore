@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import models.Book;
 import models.Cart;
 import models.Transaction;
 import util.DBUtil;
@@ -28,7 +29,7 @@ public class TransactionDB
         PreparedStatement ps = null;
         
         String query
-                = "INSERT INTO Transactions(date, price, quantity, Customer_username, Books_idProduct)"+"VALUE(?,?,?,?,?)";
+                = "INSERT INTO Transactions(dateOfTransaction, price, quantity, Customer_username, Books_idProduct)"+"VALUE(?,?,?,?,?)";
         try {
             ps = connection.prepareStatement(query);
             ps.setString(1, ""+transaction.getDate());
@@ -103,7 +104,7 @@ public class TransactionDB
                 //(int idProduct, double price, String category, String author,
                 //int publishedYear, int amountInventory, String bookName) 
                 int idTransaction = rs.getInt("idTransactions");
-                Date date = rs.getDate("date");
+                Date date = rs.getDate("dateOfTransaction");
                 double price = rs.getDouble("price");
                 int quantity = rs.getInt("quantity");
                 String username = rs.getString("Customer_username");
@@ -136,4 +137,5 @@ public class TransactionDB
             pool.freeConnection(connection);
         }
     }
+    
 }

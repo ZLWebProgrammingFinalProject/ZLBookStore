@@ -6,23 +6,22 @@
 package servlets;
 
 import data.BookDB;
-import data.CartDB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import models.Book;
-import util.CookieUtil;
 
 /**
  *
  * @author jin3lee
  */
-public class ViewAllBooksServlet extends HttpServlet {
+@WebServlet(name = "TopTenBooksServlet", urlPatterns = {"/TopTenBooks"})
+public class TopTenBooksServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,10 +37,11 @@ public class ViewAllBooksServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+            /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>ZL BookStore - All Books</title>");
+            out.println("<title>ZL BookStore - Top 10 Best Sellers</title>");
             out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"http://localhost:8080/ZL_BookStore/styles/lzStyles.css\">");
             out.println("</head>");
     
@@ -50,14 +50,6 @@ public class ViewAllBooksServlet extends HttpServlet {
             out.println("<div id=\"header\">");
             out.println("<form action=\"http://www.localhost:8080/ZL_BookStore/Search\" method=\"post\" >");
             out.println("<input name=\"searchWords\" type=\"search\" placeholder=\"Book name\"/>");
-            out.println("<select name=\"books\">");
-            out.println("<option value=\"all\" selected=\"selected\">all</option>");
-            out.println("<option value=\"Education\">Education</option>");
-            out.println("<option value=\"SciFi\">SciFi</option>");
-            out.println("<option value=\"Romance\">Romance</option>");
-            out.println("<option value=\"Classic\">Classic</option>");
-            out.println("<option value=\"Kids\">Kids</option>");
-            out.println("</select>");
             out.println("<input type=\"submit\" value=\"Search\"/>");
             out.println("</form>");
             out.println("<br />");
@@ -77,7 +69,7 @@ public class ViewAllBooksServlet extends HttpServlet {
             
 
             
-            ArrayList<Book> books = BookDB.getAllBooks();
+            ArrayList<Book> books = BookDB.getTopTenBestSellers();
             
             out.println("<table border=\"1\">");
             

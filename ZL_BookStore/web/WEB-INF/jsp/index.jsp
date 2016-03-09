@@ -11,14 +11,6 @@
     <div id="header">
     <form action="http://www.localhost:8080/ZL_BookStore/Search" method="post" >
         <input name="searchWords" type="search" placeholder="Book name"/>
-        <select name="books">
-            <option value="all" selected="selected">all</option>  
-            <option value="Education">Education</option>
-            <option value="SciFi">SciFi</option>
-            <option value="Romance">Romance</option>
-            <option value="Classic">Classic</option>
-            <option value="Kids">Kids</option>
-        </select>
         <input type="submit" value="Search"/>
     </form>
     <br />
@@ -45,7 +37,7 @@
     <div class="left">
         <br />
         <a href="http://www.localhost:8080/ZL_BookStore/ViewAllBooks" style="text-decoration:none;" id='index_side'>View All Books</a><br /><br />
-        <a href="http://www.localhost:8080/ZL_BookStore/ViewAllBooks" style="text-decoration:none;" id='index_side'>View Top 10 Best Sellers</a><br /><br />
+        <a href="http://www.localhost:8080/ZL_BookStore/TopTenBooks" style="text-decoration:none;" id='index_side'>View Top 10 Best Sellers</a><br /><br />
         <a href="http://www.localhost:8080/ZL_BookStore/ViewAllBooks" style="text-decoration:none;" id='index_side'>View Top 5 By Category</a><br /><br />
         
     </div>
