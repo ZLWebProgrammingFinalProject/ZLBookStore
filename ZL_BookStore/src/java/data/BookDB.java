@@ -44,34 +44,34 @@ public class BookDB {
 //        
 //    }
 //    
-//    public static int update(Customer customer){
-//        ConnectionPool pool = ConnectionPool.getInstance();
-//        Connection connection = pool.getConnection();
-//        PreparedStatement ps= null;
-//        
-//        String query = "UPDATE customer SET" + "username = ?, "+"name = ? "+"password=? "+"email=?";
-//        
-//        try 
-//        {
-//            ps = connection.prepareStatement(query);
-//            ps.setString(1, customer.getUserName());
-//            ps.setString(2, customer.getName());
-//            ps.setString(3, customer.getPassWord());
-//            ps.setString(4, customer.getEmail());
-//            
-//            return ps.executeUpdate();
-//        }
-//        catch(SQLException e)
-//        {
-//            System.out.println(e);
-//            return 0;
-//        }
-//        finally
-//        {
-//            DBUtil.closePreparedStatement(ps);
-//            pool.freeConnection(connection);
-//        }
-//    }
+    public static int updateInventoryCount(int idProduct, int amountInventory){
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps= null;
+        
+        String query = "UPDATE Books SET " 
+                +"amountInventory=? "
+                +"WHERE idProduct=?";
+        
+        try 
+        {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, amountInventory);
+            ps.setInt(2, idProduct);
+            
+            return ps.executeUpdate();
+        }
+        catch(SQLException e)
+        {
+            System.out.println(e);
+            return 0;
+        }
+        finally
+        {
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
 //    
 //    public static int delete(Customer customer)
 //    {

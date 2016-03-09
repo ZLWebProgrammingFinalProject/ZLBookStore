@@ -5,6 +5,7 @@
  */
 package servlets;
 
+import data.BookDB;
 import data.CartDB;
 import data.TransactionDB;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.Book;
 import models.Cart;
 import models.Transaction;
 import util.CookieUtil;
@@ -51,7 +53,14 @@ public class ConfirmPurchaseServlet extends HttpServlet {
         // insert transaction into db
         TransactionDB.insert(cart);
         
+        // update book database
+        Book book = BookDB.getBook(idProduct);
+        int updatedAmount = book.getAmountInventory()-amount;
+        BookDB.updateInventoryCount(idProduct, updatedAmount);
+        
+        // remove cart from myCart 
         CartDB.deleteCartItem(idProduct, username);
+        
         
         try (PrintWriter out = response.getWriter()) {
            out.println("<!DOCTYPE html>");
