@@ -40,19 +40,18 @@ public class ConfirmPurchaseServlet extends HttpServlet {
         
         // initialize variable
         Cookie[] cookies = request.getCookies();
-        
-        // get username
+        // get variables
         String username = CookieUtil.getCookieValue(cookies, "currentUserLoggedIn");
+        int idProduct = Integer.parseInt(request.getParameter("idProduct"));
+        int amount = Integer.parseInt(request.getParameter("amount"));
         
-        // get carts
-        ArrayList<Cart> carts = CartDB.getCart(username);
-        
+        // delete book from cart
+        Cart cart = CartDB.getCartItem(idProduct, username, amount);
+
         // insert transaction into db
-        TransactionDB.insert(carts);
+        TransactionDB.insert(cart);
         
-        // remove all carts
-        CartDB.deleteCart(username);
-        
+        CartDB.deleteCartItem(idProduct, username);
         
         try (PrintWriter out = response.getWriter()) {
            out.println("<!DOCTYPE html>");

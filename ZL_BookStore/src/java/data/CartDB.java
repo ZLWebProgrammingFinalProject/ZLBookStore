@@ -122,4 +122,82 @@ public class CartDB
         }
     }
     
+    
+    public static int deleteCartItem(int idProduct, String Customer_username)
+    {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps= null;
+        ResultSet rs = null;
+        
+        String query = "DELETE FROM Cart "
+                + "WHERE Books_idProduct = '"+idProduct+"'"
+                + "AND Customer_username = '"+Customer_username+"'";
+        
+        try
+        {
+            ps = connection.prepareStatement(query);
+            return ps.executeUpdate();
+        } 
+        catch(SQLException e)
+        {
+            System.out.println(e);
+            return -1;
+        }
+        finally
+        {
+            DBUtil.closeResultSet(rs);
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
+    
+    public static Cart getCartItem(int idProduct, String Customer_username, int realQuantity)
+    {
+        Cart retCart = null;
+        
+        int quantity = 0;
+        if(realQuantity != -1)
+        {
+            quantity = realQuantity;
+        }
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps= null;
+        ResultSet rs = null;
+        
+        String query = "Select * FROM Cart "
+                + "WHERE Books_idProduct = '"+idProduct+"'"
+                + " AND Customer_username = '"+Customer_username+"'";
+        
+        try
+        {
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {
+                //int quantity, Date date, int Books_idProduct, String Customer_username
+                retCart = new Cart(quantity, 
+                        rs.getDate("date"), 
+                        rs.getInt("Books_idProduct"), 
+                        rs.getString("Customer_username"));
+            }
+            
+            return retCart;
+        } 
+        catch(SQLException e)
+        {
+            System.out.println(e);
+            return retCart;
+        }
+        finally
+        {
+            DBUtil.closeResultSet(rs);
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
+    
 }

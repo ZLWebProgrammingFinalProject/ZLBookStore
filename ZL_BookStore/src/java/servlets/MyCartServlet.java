@@ -97,18 +97,16 @@ public class MyCartServlet extends HttpServlet {
                 out.println("<td>"+BookDB.getBook(carts.get(i).getBooks_idProduct()).getBookName()+"</td>");
                 out.println("<td>"+carts.get(i).getDate()+"</td>");
                 out.println("<td>");
-                         out.println("<form action=\"ConfirmPurchase\">"
-                       + "<select name=\"rating\">\n");
-                         
-                         
+                    out.println("<form action=\"ConfirmPurchase\">");
+                    out.println("<select name=\"amount\">\n");     
                     for(int j = 1; j < BookDB.getBookInventoryCount(carts.get(i).getBooks_idProduct()); j++)
                     {
                         out.println("<option value=\""+j+"\">"+j+"</option>");
                     }
-                         
-                        out.println("</select>"
-                       + "<input type=\"submit\" value=\"Purchase\">"
-                      + "</form> ");
+                    out.println("</select>"
+                    + "<input type=\"hidden\" name=\"idProduct\" value=\""+carts.get(i).getBooks_idProduct()+"\">"
+                    + "<input type=\"submit\" value=\"Purchase\">"
+                    + "</form> ");
                         out.println("</td>");
                 out.println("</tr>");   
                 

@@ -64,6 +64,22 @@ public class TransactionDB
         }
     }
     
+    public static void insert(Cart cart)
+    {
+        Cart aCart = cart;
+        Date a = aCart.getDate();
+        
+        //Date date, double price, int quantity, String Customer_username, int Books_idProduct
+        TransactionDB.insert(
+                new Transaction(
+                        cart.getDate(), 
+                        BookDB.getBook(cart.getBooks_idProduct()).getPrice() * cart.getQuantity(), 
+                        cart.getQuantity(), 
+                        cart.getCustomer_username(), 
+                        cart.getBooks_idProduct()));
+
+    }
+    
     public static ArrayList<Transaction> getTransactions(String Customer_username)
     {
         ArrayList<Transaction> transactions = new ArrayList<>();
