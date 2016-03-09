@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import models.Rating;
 import org.joda.time.LocalDateTime;
 import util.CookieUtil;
+import util.DateUtil;
 
 /**
  *
@@ -42,9 +43,7 @@ public class SubmitRatingServlet extends HttpServlet {
         int Book_idProduct = Integer.parseInt(request.getParameter("Books_idProduct"));
         
         // get date
-        LocalDateTime dateTime = LocalDateTime.now();
-        Date date = new Date(dateTime.getYear(), dateTime.getMonthOfYear(), dateTime.getDayOfMonth());
-        
+        Date date = DateUtil.getDate();
         // get username
         Cookie[] cookies = request.getCookies();
         String Customer_username = CookieUtil.getCookieValue(cookies, "currentUserLoggedIn");

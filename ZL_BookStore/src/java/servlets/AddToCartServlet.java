@@ -59,7 +59,7 @@ public class AddToCartServlet extends HttpServlet {
         // set variables
         String count = request.getParameter("count");
         quantity = Integer.parseInt(count);
-        date = new Date(dateTime.getYear(), dateTime.getMonthOfYear(), dateTime.getDayOfMonth());
+        date = new Date(0);
         Books_idProduct = Integer.parseInt(request.getParameter("Books_idProduct"));
         Customer_username = CookieUtil.getCookieValue(cookies, "currentUserLoggedIn");
         
