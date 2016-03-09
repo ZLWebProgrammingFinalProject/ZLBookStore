@@ -326,7 +326,8 @@ public class BookDB {
         String query = "SELECT Count(idTransactions), Books_idProduct\n" +
                         "From Transactions\n" +
                         "GROUP BY Books_idProduct\n" +
-                        "ORDER BY Count(idTransactions) DESC";
+                        "ORDER BY Count(idTransactions) DESC"
+                + " LIMIT 10";
         
         try
         {

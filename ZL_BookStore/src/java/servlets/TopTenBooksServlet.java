@@ -74,7 +74,7 @@ public class TopTenBooksServlet extends HttpServlet {
             out.println("<table border=\"1\">");
             
             out.println("<tr>");
-            out.println("<td>Book ID</td>");
+            out.println("<td>Rank</td>");
             out.println("<td>Title</td>");
             out.println("<td>Author</td>");
             out.println("<td>Category</td>");
@@ -84,9 +84,9 @@ public class TopTenBooksServlet extends HttpServlet {
             out.println("</tr>");
             for(int i = 0; i < books.size(); i++)
             {
-                
+                int rank = i+1;
                 out.println("<tr>");
-                out.println("<td>"+books.get(i).getIdProduct()+"</td>");
+                out.println("<td>"+rank+"</td>");
                 out.println("<td>"+books.get(i).getBookName()+"</td>");
                 out.println("<td>"+books.get(i).getAuthor()+"</td>");
                 out.println("<td>"+books.get(i).getCategory()+"</td>");
