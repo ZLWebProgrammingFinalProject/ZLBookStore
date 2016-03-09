@@ -437,6 +437,7 @@ public class BookDB {
         }
     }
     
+    
     public static ArrayList<Book> getBooksAToZ()
     {
         ArrayList<Book> books = new ArrayList<>();
@@ -492,6 +493,93 @@ public class BookDB {
         
         String query = "SELECT * From Books\n" +
                         "ORDER BY bookName DESC";
+        try
+        {
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {
+                books.add(new Book(
+                        rs.getInt("idProduct"),
+                        rs.getDouble("price"),
+                        rs.getString("category"),
+                        rs.getString("author"),
+                        rs.getInt("publishedYear"),
+                        rs.getInt("amountInventory"),
+                        rs.getString("bookName")));
+            }
+                
+            return books;
+        } 
+        catch(SQLException e)
+        {
+            System.out.println(e);
+            return books;
+        }
+        finally
+        {
+            DBUtil.closeResultSet(rs);
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
+    
+    public static ArrayList<Book> getAuthorAToZ()
+    {
+        ArrayList<Book> books = new ArrayList<>();
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps= null;
+        ResultSet rs = null;
+        
+        String query = "SELECT * From Books\n" +
+                        "ORDER BY author ASC";
+        try
+        {
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {
+                books.add(new Book(
+                        rs.getInt("idProduct"),
+                        rs.getDouble("price"),
+                        rs.getString("category"),
+                        rs.getString("author"),
+                        rs.getInt("publishedYear"),
+                        rs.getInt("amountInventory"),
+                        rs.getString("bookName")));
+            }
+                
+            return books;
+        } 
+        catch(SQLException e)
+        {
+            System.out.println(e);
+            return books;
+        }
+        finally
+        {
+            DBUtil.closeResultSet(rs);
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
+    
+    
+    public static ArrayList<Book> getAuthorZToA()
+    {
+        ArrayList<Book> books = new ArrayList<>();
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps= null;
+        ResultSet rs = null;
+        
+        String query = "SELECT * From Books\n" +
+                        "ORDER BY author DESC";
         try
         {
             ps = connection.prepareStatement(query);
