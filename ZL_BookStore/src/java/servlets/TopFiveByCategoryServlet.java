@@ -83,7 +83,12 @@ public class TopFiveByCategoryServlet extends HttpServlet {
             out.println("<table border=\"1\">");
             
             out.println("<tr>");
-            out.println("<td>Romance</td>");
+            out.println("<td><a href=\"http://www.localhost:8080/ZL_BookStore/TopFiveByCategory?category=Romance\">Romance</a></td>");
+            out.println("<td><a href=\"http://www.localhost:8080/ZL_BookStore/TopFiveByCategory?category=Classic\">Classic</a></td>");
+            out.println("<td><a href=\"http://www.localhost:8080/ZL_BookStore/TopFiveByCategory?category=Scifi\">Scifi</a></td>");
+            out.println("<td><a href=\"http://www.localhost:8080/ZL_BookStore/TopFiveByCategory?category=Kids\">Kids</a></td>");
+            out.println("<td><a href=\"http://www.localhost:8080/ZL_BookStore/TopFiveByCategory?category=Education\">Education</a></td>");
+            out.println("<td><a href=\"http://www.localhost:8080/ZL_BookStore/TopFiveByCategory?category=Music\">Music</a></td>");
             out.println("<td>Classic</td>");
             out.println("<td>Scifi</td>");
             out.println("<td>Kids</td>");
