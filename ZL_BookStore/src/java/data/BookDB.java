@@ -350,6 +350,7 @@ public class BookDB {
     }
     
     
+    
     public static ArrayList<Book> getTopTenBestSellers()
     {
         ArrayList<Book> books = new ArrayList<>();
