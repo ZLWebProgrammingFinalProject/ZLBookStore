@@ -349,8 +349,6 @@ public class BookDB {
         }
     }
     
-    
-    
     public static ArrayList<Book> getTopTenBestSellers()
     {
         ArrayList<Book> books = new ArrayList<>();
@@ -422,6 +420,93 @@ public class BookDB {
                 int Books_idProduct = rs.getInt("Books_idProduct");
                 
                 books.add(BookDB.getBook(Books_idProduct));
+            }
+                
+            return books;
+        } 
+        catch(SQLException e)
+        {
+            System.out.println(e);
+            return books;
+        }
+        finally
+        {
+            DBUtil.closeResultSet(rs);
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
+    
+    public static ArrayList<Book> getBooksAToZ()
+    {
+        ArrayList<Book> books = new ArrayList<>();
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps= null;
+        ResultSet rs = null;
+        
+        String query = "SELECT * From Books\n" +
+                        "ORDER BY bookName ASC";
+        try
+        {
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {
+                books.add(new Book(
+                        rs.getInt("idProduct"),
+                        rs.getDouble("price"),
+                        rs.getString("category"),
+                        rs.getString("author"),
+                        rs.getInt("publishedYear"),
+                        rs.getInt("amountInventory"),
+                        rs.getString("bookName")));
+            }
+                
+            return books;
+        } 
+        catch(SQLException e)
+        {
+            System.out.println(e);
+            return books;
+        }
+        finally
+        {
+            DBUtil.closeResultSet(rs);
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
+    
+    
+    public static ArrayList<Book> getBooksZToA()
+    {
+        ArrayList<Book> books = new ArrayList<>();
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps= null;
+        ResultSet rs = null;
+        
+        String query = "SELECT * From Books\n" +
+                        "ORDER BY bookName DESC";
+        try
+        {
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {
+                books.add(new Book(
+                        rs.getInt("idProduct"),
+                        rs.getDouble("price"),
+                        rs.getString("category"),
+                        rs.getString("author"),
+                        rs.getInt("publishedYear"),
+                        rs.getInt("amountInventory"),
+                        rs.getString("bookName")));
             }
                 
             return books;

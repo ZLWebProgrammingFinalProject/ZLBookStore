@@ -77,12 +77,10 @@ public class ViewAllBooksServlet extends HttpServlet {
             
 
             out.println("<table border=\"1\">");
-            
             out.println("<tr>");
             
             SearchByBookID(out);
             SearchByTitle(out);
-            out.println("<td>Title</td>");
             out.println("<td>Author</td>");
             out.println("<td>Category</td>");
             out.println("<td>Published Year</td>");
@@ -93,31 +91,32 @@ public class ViewAllBooksServlet extends HttpServlet {
             
             if(request.getParameter("filter") == null)
             {
-                
-                    filterDefault(out);
+                filterDefault(out);
             }
             else
             {
-                switch(Integer.parseInt(request.getParameter("filter")))
-            {
-                // displays all books
-                case 1:
-                    String retVal = request.getParameter("idProduct");
-                    int idProduct = Integer.parseInt(retVal);
-                    filter1(out, idProduct);
-                    break;
-                // displays a to z
-                case 2:
-                    filterDefault(out);
-                    break;
-                // displays z to a
-                case 3:
-                    filterDefault(out);
-                    break;
-                default:
-                    filterDefault(out);
-                    break;
-            }
+                String f = request.getParameter("filter");
+                int filter = Integer.parseInt(f);
+                switch(filter)
+                {
+                    // displays all books
+                    case 1:
+                        String retVal = request.getParameter("idProduct");
+                        int idProduct = Integer.parseInt(retVal);
+                        filter1(out, idProduct);
+                        break;
+                    // displays a to z
+                    case 2:
+                        filter2(out);
+                        break;
+                    // displays z to a
+                    case 3:
+                        filter3(out);
+                        break;
+                    default:
+                        filterDefault(out);
+                        break;
+                }
             }
             
             out.println("</table>");
@@ -146,10 +145,12 @@ public class ViewAllBooksServlet extends HttpServlet {
     {
         out.println("<td>Title");
         out.println("<br />");
+        
         out.println("<form action=\"http://www.localhost:8080/ZL_BookStore/ViewAllBooks\" method=\"post\">");
         out.println("<input type=\"hidden\" name=\"filter\" value=\"2\"/>");
         out.println("<input type=\"submit\" value=\"A->Z\">");
         out.println("</form>");
+        
         out.println("<form action=\"http://www.localhost:8080/ZL_BookStore/ViewAllBooks\" method=\"post\">");
         out.println("<input type=\"hidden\" name=\"filter\" value=\"3\"/>");
         out.println("<input type=\"submit\" value=\"Z->A\">");
@@ -171,7 +172,7 @@ public class ViewAllBooksServlet extends HttpServlet {
             out.println("</select>"
                     + "<input type=\"hidden\" name=\"filter\" value=\"1\"/>"
                     + "<input type=\"submit\" value=\"Search\"/>"
-                    + "<form>");
+                    + "</form>");
             out.println("</td>");
     }
     
@@ -219,7 +220,54 @@ public class ViewAllBooksServlet extends HttpServlet {
             out.println("</form></td>");
         out.println("</tr>");
     }
+
+    // displays all books
+    private void filter2(PrintWriter out)
+    {
+        ArrayList<Book> books = BookDB.getBooksAToZ();
+        
+        for(int i = 0; i < books.size(); i++)
+        {
+            out.println("<tr>");
+            out.println("<td>"+books.get(i).getIdProduct()+"</td>");
+            out.println("<td>"+books.get(i).getBookName()+"</td>");
+            out.println("<td>"+books.get(i).getAuthor()+"</td>");
+            out.println("<td>"+books.get(i).getCategory()+"</td>");
+            out.println("<td>"+books.get(i).getPublishedYear()+"</td>");
+            out.println("<td>"+books.get(i).getPrice()+"</td>");
+            out.println("<td>"+books.get(i).getAmountInventory()+"</td>");
+            out.println("<td><form action=\"http://www.localhost:8080/ZL_BookStore/AddToCart\" method=\"post\" >");
+                out.println("<input type=\"hidden\" name=\"Books_idProduct\" value=\""+books.get(i).getIdProduct()+"\"\">");
+                out.println("<input type=\"hidden\" name=\"count\" value=\"1\">");
+                out.println("<input type=\"submit\" value=\"Add to Cart\"/>");
+                out.println("</form></td>");
+            out.println("</tr>");
+        }
+    }
     
+    // displays all books
+    private void filter3(PrintWriter out)
+    {
+        ArrayList<Book> books = BookDB.getBooksZToA();
+        
+        for(int i = 0; i < books.size(); i++)
+        {
+            out.println("<tr>");
+            out.println("<td>"+books.get(i).getIdProduct()+"</td>");
+            out.println("<td>"+books.get(i).getBookName()+"</td>");
+            out.println("<td>"+books.get(i).getAuthor()+"</td>");
+            out.println("<td>"+books.get(i).getCategory()+"</td>");
+            out.println("<td>"+books.get(i).getPublishedYear()+"</td>");
+            out.println("<td>"+books.get(i).getPrice()+"</td>");
+            out.println("<td>"+books.get(i).getAmountInventory()+"</td>");
+            out.println("<td><form action=\"http://www.localhost:8080/ZL_BookStore/AddToCart\" method=\"post\" >");
+                out.println("<input type=\"hidden\" name=\"Books_idProduct\" value=\""+books.get(i).getIdProduct()+"\"\">");
+                out.println("<input type=\"hidden\" name=\"count\" value=\"1\">");
+                out.println("<input type=\"submit\" value=\"Add to Cart\"/>");
+                out.println("</form></td>");
+            out.println("</tr>");
+        }
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
