@@ -5,18 +5,25 @@
  */
 package util;
 
+import data.TransactionDB;
+import java.sql.Date;
 import java.util.ArrayList;
 
 /**
  *
  * @author jin3lee
  */
-public class AggregateTransactions 
+public class AggregateDataUtil 
 {
     
     public static ArrayList<Integer> getMonthlySales(int year)
     {
+        // get this year
         ArrayList<Integer> retVal = new ArrayList<>();
+        for(int i = 1; i <= 12; i++)
+        {
+            retVal.add(new Integer(TransactionDB.getMonthlySale(year, i)));
+        }
         
         return retVal;
     }
@@ -28,14 +35,14 @@ public class AggregateTransactions
         return retVal;
     }
     
-    public static ArrayList<Integer> getMonthlyRevenue(int year)
+    public static ArrayList<Integer> getMonthlyProfit(int year)
     {
         ArrayList<Integer> retVal = new ArrayList<>();
         
         return retVal;
     }
     
-    public static ArrayList<Integer> getWeeklyRevenue(int month, int year)
+    public static ArrayList<Integer> getWeeklyProfit(int month, int year)
     {
         ArrayList<Integer> retVal = new ArrayList<>();
         

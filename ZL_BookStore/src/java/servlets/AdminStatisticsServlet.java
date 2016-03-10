@@ -8,11 +8,13 @@ package servlets;
 import data.CustomerDB;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import util.AggregateDataUtil;
 import util.CookieUtil;
 
 /**
@@ -34,10 +36,11 @@ public class AdminStatisticsServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        Cookie[] cookies = request.getCookies();
-        String Customer_username = CookieUtil.getCookieValue(cookies, "currentUserLoggedIn");
+//        Cookie[] cookies = request.getCookies();
+//        String Customer_username = CookieUtil.getCookieValue(cookies, "currentUserLoggedIn");
         
-        if(!CustomerDB.isAdmin(Customer_username))
+        //if(!CustomerDB.isAdmin(Customer_username))
+        if(false)
         {
             response.sendRedirect("http://localhost:8080/ZL_BookStore/htmls/adminLogin.html");
         }
@@ -60,8 +63,29 @@ public class AdminStatisticsServlet extends HttpServlet {
                 out.println("<br />");
                 out.println("<br />");
                 
-                out.println("<H1>Monthly Sales, Profit, & Growth</H1>");
+                out.println("<H1>Monthly Sales, Profit, & Growth during " + 2016 + "</H1>");
                 out.println("<br />");
+                
+                
+                
+            out.println("<table border=\"1\">");
+            
+            out.println("<tr>");
+            out.println("<td>Month</td>");
+            out.println("<td>Sales</td>");
+            out.println("<td>Profit</td>");
+            out.println("<td>Growth</td>");
+            out.println("</tr>");
+            
+                ArrayList<Integer> salesList = AggregateDataUtil.getMonthlySales(2016);
+                
+                for(int i = 0; i <= salesList.size()+1; i++)
+                {
+                    out.println("<tr>");
+                    int month = i+1;
+                    out.println("<td>"+month+"</td><td>" + salesList.get(i).toString() + "</td>");
+                    out.println("</tr>");
+                }
                 
                 out.println("</body>");
                 out.println("</html>");

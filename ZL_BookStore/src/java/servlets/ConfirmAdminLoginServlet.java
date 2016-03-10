@@ -76,12 +76,14 @@ public class ConfirmAdminLoginServlet extends HttpServlet {
             // create cookie and store username
             Cookie c = new Cookie("currentUserLoggedIn", username);
             c.setMaxAge(60*30);    // removes the username when user closes the browser
-            c.setPath("/");
+            c.setPath("../");
             response.addCookie(c);
+            response.sendRedirect("http://www.localhost:8080/ZL_BookStore/AdminStatistics");
         }
         else
         {
             isCustomerExist = "FAILED TO LOGIN!";
+            response.sendRedirect("http://localhost:8080/ZL_BookStore/htmls/adminLogin.html");
         }
         
         try (PrintWriter out = response.getWriter()) {
