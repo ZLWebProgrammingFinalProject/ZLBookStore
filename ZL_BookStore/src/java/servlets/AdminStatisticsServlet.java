@@ -6,6 +6,7 @@
 package servlets;
 
 import data.CustomerDB;
+import data.TransactionDB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
@@ -64,46 +65,8 @@ public class AdminStatisticsServlet extends HttpServlet {
                 out.println("<br />");
                 out.println("<br />");
                 
-                out.println("<H1>Monthly Sales, Profit, & Growth during " + 2016 + "</H1>");
-                out.println("<br />");
+                getMonthlyStatistics(out, request);
                 
-                
-                
-            out.println("<table border=\"1\">");
-            
-            out.println("<tr>");
-            out.println("<td>Month</td>");
-            out.println("<td>Sales</td>");
-            out.println("<td>Profit</td>");
-            out.println("<td>Growth</td>");
-            out.println("</tr>");
-            
-                ArrayList<Integer> salesList = AggregateDataUtil.getMonthlySales(2016);
-                ArrayList<Double> profitList = AggregateDataUtil.getMonthlyProfit(2016);
-                ArrayList<Double> differenceList = AggregateDataUtil.getMonthlyProfit(2016);
-                
-                for(int i = 0; i <= salesList.size()+1; i++)
-                {
-                    out.println("<tr>");
-                    int month = i+1;
-                    out.println("<td>"+month+"</td><td>" + salesList.get(i).toString() + "</td>");
-                    
-                    DecimalFormat formatter;
-                    formatter = new DecimalFormat("##.##");
-                    
-                    out.println("<td>" + formatter.format(profitList.get(i)) + "</td>");
-                    double difference;
-                    if(i != 0)
-                    {
-                        difference = differenceList.get(i) - differenceList.get(i-1);
-                    }
-                    else
-                    {
-                        difference = 0;
-                    }
-                    out.println("<td>" + formatter.format(difference) + "</td>");
-                    out.println("</tr>");
-                }
                 
                 out.println("</body>");
                 out.println("</html>");
@@ -112,6 +75,67 @@ public class AdminStatisticsServlet extends HttpServlet {
         
     }
 
+    public void getMonthlyStatistics(PrintWriter out, HttpServletRequest request)
+    {
+        int year = 2016;
+        
+        if(request.getParameter("theYear") != null)
+        {
+            year = Integer.parseInt(request.getParameter("theYear"));
+        }
+        
+         out.println("<form action=\"http://www.localhost:8080/ZL_BookStore/AdminStatistics\" method=\"post\">");
+            out.println("<select name=\"theYear\">\n");     
+                for(int j = TransactionDB.getRangeOfYear().get(0); j <= TransactionDB.getRangeOfYear().get(1); j++)
+                {
+                    out.println("<option value=\""+j+"\">"+j+"</option>");
+                }
+            out.println("</select>");
+            out.println("<input type=\"hidden\" name=\"filter\" value=\"1\"/>"
+            + "<input type=\"submit\" value=\"Search\"/>"
+            + "</form>");
+        
+            out.println("<H1>Monthly Sales, Profit, & Growth during " + year + "</H1>");
+        
+        out.println("<br />");
+        out.println("<table border=\"1\">");
+        out.println("<tr>");
+        out.println("<td>Month</td>");
+        out.println("<td>Sales</td>");
+        out.println("<td>Profit</td>");
+        out.println("<td>Growth</td>");
+        out.println("</tr>");
+
+        ArrayList<Integer> salesList = AggregateDataUtil.getMonthlySales(year);
+        ArrayList<Double> profitList = AggregateDataUtil.getMonthlyProfit(year);
+        ArrayList<Double> differenceList = AggregateDataUtil.getMonthlyProfit(year);
+
+        for(int i = 0; i <= salesList.size()+1; i++)
+        {
+            out.println("<tr>");
+            int month = i+1;
+            out.println("<td>"+month+"</td><td>" + salesList.get(i).toString() + "</td>");
+
+            DecimalFormat formatter;
+            formatter = new DecimalFormat("##.##");
+
+            out.println("<td>" + formatter.format(profitList.get(i)) + "</td>");
+            double difference;
+            if(i != 0)
+            {
+                difference = differenceList.get(i) - differenceList.get(i-1);
+            }
+            else
+            {
+                difference = 0;
+            }
+            out.println("<td>" + formatter.format(difference) + "</td>");
+            out.println("</tr>");
+        }
+    }
+    
+    
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

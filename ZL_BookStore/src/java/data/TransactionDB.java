@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import models.Book;
 import models.Cart;
 import models.Transaction;
@@ -240,4 +241,64 @@ public class TransactionDB
         }
     }
 
+    
+    public static ArrayList<Integer> getRangeOfYear()
+    {
+        ArrayList<Integer> years = new ArrayList<>();
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps= null;
+        ResultSet rs = null;
+        double profit = 0.0;
+        
+        String query = "SELECT *\n" +
+                        "FROM Transactions";
+        
+        int min = 9999;
+        int max = 0;
+        
+        try
+        {
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            
+            
+            while(rs.next())
+            {
+                //(int idProduct, double price, String category, String author,
+                //int publishedYear, int amountInventory, String bookName) 
+                Date dat = rs.getDate("dateOfTransaction");
+                
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(dat);
+                int year = cal.get(Calendar.YEAR);
+                
+                if(year > max)
+                {
+                    max = year;
+                }
+                if(year < min)
+                {
+                    min = year;
+                }
+            }
+            
+            years.add(new Integer(min));
+            years.add(new Integer(max));
+                
+            return years;
+        } 
+        catch(SQLException e)
+        {
+            System.out.println(e);
+            return years;
+        }
+        finally
+        {
+            DBUtil.closeResultSet(rs);
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
 }
