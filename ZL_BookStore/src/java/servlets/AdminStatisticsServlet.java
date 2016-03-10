@@ -58,14 +58,27 @@ public class AdminStatisticsServlet extends HttpServlet {
                 out.println("<body>");
                 out.println("<h1>Servlet AdminStatisticsServlet</h1>");
                 
-                out.println("<a href=\"#\">Monthly Sales, Profit, & Growth</a>");
+                out.println("<a href=\"http://www.localhost:8080/ZL_BookStore/AdminStatistics?format=month\">Monthly Sales, Profit, & Growth</a>");
                 out.println("<br />");
-                out.println("<a href=\"#\">Weekly Sales, Profit, Growth</a>");
+                out.println("<a href=\"http://www.localhost:8080/ZL_BookStore/AdminStatistics?format=week\">Weekly Sales, Profit, Growth</a>");
                 
                 out.println("<br />");
                 out.println("<br />");
                 
-                getMonthlyStatistics(out, request);
+                boolean doWeek = false;
+                if(request.getParameter("format").equals("week"))
+                {
+                    doWeek = true;
+                }
+                
+                if(doWeek)
+                {
+                    getWeeklyStatistics(out, request);
+                }
+                else
+                {
+                    getMonthlyStatistics(out, request);
+                }
                 
                 
                 out.println("</body>");
@@ -91,6 +104,7 @@ public class AdminStatisticsServlet extends HttpServlet {
                     out.println("<option value=\""+j+"\">"+j+"</option>");
                 }
             out.println("</select>");
+            out.println("<input type=\"hidden\" name=\"format\" value=\"month\"/>");
             out.println("<input type=\"hidden\" name=\"filter\" value=\"1\"/>"
             + "<input type=\"submit\" value=\"Search\"/>"
             + "</form>");
@@ -115,6 +129,116 @@ public class AdminStatisticsServlet extends HttpServlet {
             out.println("<tr>");
             int month = i+1;
             out.println("<td>"+month+"</td><td>" + salesList.get(i).toString() + "</td>");
+
+            DecimalFormat formatter;
+            formatter = new DecimalFormat("##.##");
+
+            out.println("<td>" + formatter.format(profitList.get(i)) + "</td>");
+            double difference;
+            if(i != 0)
+            {
+                difference = differenceList.get(i) - differenceList.get(i-1);
+            }
+            else
+            {
+                difference = 0;
+            }
+            out.println("<td>" + formatter.format(difference) + "</td>");
+            out.println("</tr>");
+        }
+    }
+    
+     public void getWeeklyStatistics(PrintWriter out, HttpServletRequest request)
+    {
+        int year = 2016;
+        int month = 3;
+        String monthName = "March";
+        
+        if(request.getParameter("theMonth") != null)
+        {
+            month = Integer.parseInt(request.getParameter("theMonth"));
+        }
+        
+        switch(month)
+        {
+            case 1:
+                monthName = "January";
+                break;
+            case 2:
+                monthName = "Feburary";
+                break;
+            case 3:
+                monthName = "March";
+                break;
+            case 4:
+                monthName = "April";
+                break;
+            case 5:
+                monthName = "May";
+                break;
+            case 6:
+                monthName = "June";
+                break;
+            case 7:
+                monthName = "July";
+                break;
+            case 8:
+                monthName = "August";
+                break;
+            case 9:
+                monthName = "September";
+                break;
+            case 10:
+                monthName = "October";
+                break;
+            case 11:
+                monthName = "November";
+                break;
+            case 12:
+                monthName = "December";
+                break;
+        }
+        
+         out.println("<form action=\"http://www.localhost:8080/ZL_BookStore/AdminStatistics\" method=\"post\">");
+            out.println("<select name=\"theMonth\">\n");     
+                    out.println("<option value=\""+"1"+"\">Week "+"January"+"</option>");
+                    out.println("<option value=\""+"2"+"\">Week "+"Feburary"+"</option>");
+                    out.println("<option value=\""+"3"+"\">Week "+"March"+"</option>");
+                    out.println("<option value=\""+"4"+"\">Week "+"April"+"</option>");
+                    out.println("<option value=\""+"5"+"\">Week "+"May"+"</option>");
+                    out.println("<option value=\""+"6"+"\">Week "+"June"+"</option>");
+                    out.println("<option value=\""+"7"+"\">Week "+"July"+"</option>");
+                    out.println("<option value=\""+"8"+"\">Week "+"August"+"</option>");
+                    out.println("<option value=\""+"9"+"\">Week "+"September"+"</option>");
+                    out.println("<option value=\""+"10"+"\">Week "+"October"+"</option>");
+                    out.println("<option value=\""+"11"+"\">Week "+"November"+"</option>");
+                    out.println("<option value=\""+"12"+"\">Week "+"December"+"</option>");
+            out.println("</select>");
+            out.println("<input type=\"hidden\" name=\"format\" value=\"week\"/>");
+            out.println("<input type=\"hidden\" name=\"filter\" value=\"1\"/>"
+            + "<input type=\"submit\" value=\"Search\"/>"
+            + "</form>");
+        
+            out.println("<H1>Weekly Sales, Profit, & Growth during Week " + monthName + "</H1>");
+        
+        out.println("<br />");
+        out.println("<table border=\"1\">");
+        out.println("<tr>");
+        out.println("<td>Week</td>");
+        out.println("<td>Sales</td>");
+        out.println("<td>Profit</td>");
+        out.println("<td>Growth</td>");
+        out.println("</tr>");
+
+        ArrayList<Integer> salesList = AggregateDataUtil.getWeeklySales(month, year);
+        ArrayList<Double> profitList = AggregateDataUtil.getWeeklyProfit(month, year);
+        ArrayList<Double> differenceList = AggregateDataUtil.getWeeklyProfit(month, year);
+
+        for(int i = 0; i <= salesList.size()+1; i++)
+        {
+            out.println("<tr>");
+            int week = i+1;
+            out.println("<td>"+week+"</td><td>" + salesList.get(i).toString() + "</td>");
 
             DecimalFormat formatter;
             formatter = new DecimalFormat("##.##");

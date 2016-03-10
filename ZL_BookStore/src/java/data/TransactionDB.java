@@ -198,6 +198,138 @@ public class TransactionDB
         }
     }
 
+    
+    public static int getWeeklySale(int year, int month, int week)
+    {
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps= null;
+        ResultSet rs = null;
+        int sales = 0;
+        
+        int dayStart = 0;
+        int dayEnd = 0;
+        switch(week)
+        {
+            case 1:
+                dayStart = 1;
+                dayEnd = 7;
+                break;
+            case 2:
+                dayStart = 8;
+                dayEnd = 15;
+                break;
+            case 3:
+                dayStart = 16;
+                dayEnd = 23;
+                break;
+            case 4:
+                dayStart = 24;
+                dayEnd = 31;
+                break;
+        }
+        
+        String query = "SELECT *\n" +
+                        "FROM Transactions\n" +
+                        "WHERE dateOfTransaction >= '"+year+"/"+month+"/"+dayStart+"'\n" +
+                        "AND dateOfTransaction <= '"+year+"/"+month+"/"+dayEnd+"'";
+        
+        try
+        {
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            
+            
+            while(rs.next())
+            {
+                //(int idProduct, double price, String category, String author,
+                //int publishedYear, int amountInventory, String bookName) 
+                sales += rs.getInt("quantity");
+            }
+                
+            return sales;
+        } 
+        catch(SQLException e)
+        {
+            System.out.println(e);
+            return sales;
+        }
+        finally
+        {
+            DBUtil.closeResultSet(rs);
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
+    
+    
+    public static double getWeeklyProfit(int year, int month, int week)
+    {
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps= null;
+        ResultSet rs = null;
+        Double profit = 0.0;
+        
+        int dayStart = 0;
+        int dayEnd = 0;
+        switch(week)
+        {
+            case 1:
+                dayStart = 1;
+                dayEnd = 7;
+                break;
+            case 2:
+                dayStart = 8;
+                dayEnd = 15;
+                break;
+            case 3:
+                dayStart = 16;
+                dayEnd = 23;
+                break;
+            case 4:
+                dayStart = 24;
+                dayEnd = 31;
+                break;
+        }
+        
+        String query = "SELECT *\n" +
+                        "FROM Transactions\n" +
+                        "WHERE dateOfTransaction >= '"+year+"/"+month+"/"+dayStart+"'\n" +
+                        "AND dateOfTransaction <= '"+year+"/"+month+"/"+dayEnd+"'";
+        
+        try
+        {
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            
+            
+            while(rs.next())
+            {
+                //(int idProduct, double price, String category, String author,
+                //int publishedYear, int amountInventory, String bookName) 
+                profit += rs.getDouble("price");
+            }
+                
+            return profit;
+        } 
+        catch(SQLException e)
+        {
+            System.out.println(e);
+            return profit;
+        }
+        finally
+        {
+            DBUtil.closeResultSet(rs);
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
+
     public static double getMonthlyProfit(int year, int month)
     {
         ArrayList<Transaction> transactions = new ArrayList<>();

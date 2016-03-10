@@ -31,10 +31,10 @@ public class AggregateDataUtil
     {
 //        
         ArrayList<Integer> retVal = new ArrayList<>();
-//        for(int i = 1; i <= 12; i++)
-//        {
-//            retVal.add(new Integer(TransactionDB.getMonthlySale(year, i)));
-//        }
+        for(int i = 1; i <= 4; i++)
+        {
+            retVal.add(new Integer(TransactionDB.getWeeklySale(year, month, i)));
+        }
         return retVal;
     }
     
@@ -48,10 +48,13 @@ public class AggregateDataUtil
         return retVal;
     }
     
-    public static ArrayList<Integer> getWeeklyProfit(int month, int year)
+    public static ArrayList<Double> getWeeklyProfit(int month, int year)
     {
-        ArrayList<Integer> retVal = new ArrayList<>();
-        
+        ArrayList<Double> retVal = new ArrayList<>();
+        for(int i = 1; i <= 4; i++)
+        {
+            retVal.add(new Double(TransactionDB.getWeeklyProfit(year, month, i)));
+        }
         return retVal;
     }
     
