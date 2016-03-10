@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import models.Rating;
 import util.DBUtil;
 
@@ -80,6 +81,51 @@ public class RatingDB
                 break;
             }
             return retRating;
+        } 
+        catch(SQLException e)
+        {
+            System.out.println(e);
+            return retRating;
+        }
+        finally
+        {
+            DBUtil.closeResultSet(rs);
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    } 
+        
+    public static int getAverageRatingValue
+        (int Books_idProduct)
+    {
+        int retRating = -1;
+        ArrayList<Integer> ratingList = new ArrayList<>();
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps= null;
+        ResultSet rs = null;
+        
+        String query = "Select * From Rating\n" +
+                        "WHERE Books_idProduct='"+Books_idProduct+"'";
+        
+        try
+        {
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            
+            int total = 0;
+            while(rs.next())
+            {
+                retRating = rs.getInt("Rating");
+                ratingList.add(new Integer(retRating));
+                total+=retRating;
+            }
+            if(ratingList.size() == 0)
+            {
+                return 0;
+            }
+            return total/ratingList.size();
         } 
         catch(SQLException e)
         {

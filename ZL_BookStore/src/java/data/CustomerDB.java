@@ -167,4 +167,42 @@ public class CustomerDB {
             pool.freeConnection(connection);
         }
     }
+    
+    public static boolean isAdmin(String username)
+    {
+        boolean isValid = false;
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps= null;
+        ResultSet rs = null;
+        
+        String query = "SELECT * FROM Customer "
+                + "WHERE username = ? AND admin='1'";
+        
+        try
+        {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, username);
+            rs = ps.executeQuery();
+            
+            if(rs.next())
+            {
+                isValid = true;
+            }
+                
+            return isValid;
+        } 
+        catch(SQLException e)
+        {
+            System.out.println(e);
+            return false;
+        }
+        finally
+        {
+            DBUtil.closeResultSet(rs);
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
 }
