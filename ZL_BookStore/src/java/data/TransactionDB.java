@@ -196,4 +196,48 @@ public class TransactionDB
             pool.freeConnection(connection);
         }
     }
+
+    public static double getMonthlyProfit(int year, int month)
+    {
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps= null;
+        ResultSet rs = null;
+        double profit = 0.0;
+        
+        String query = "SELECT *\n" +
+                        "FROM Transactions\n" +
+                        "WHERE dateOfTransaction >= '"+year+"/"+month+"/01'\n" +
+                        "AND dateOfTransaction <= '"+year+"/"+month+"/31'";
+        
+        try
+        {
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            
+            
+            while(rs.next())
+            {
+                //(int idProduct, double price, String category, String author,
+                //int publishedYear, int amountInventory, String bookName) 
+                profit += rs.getDouble("price");
+            }
+                
+            return profit;
+        } 
+        catch(SQLException e)
+        {
+            System.out.println(e);
+            return profit;
+        }
+        finally
+        {
+            DBUtil.closeResultSet(rs);
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
+
 }

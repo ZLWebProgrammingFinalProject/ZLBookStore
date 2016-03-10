@@ -8,6 +8,7 @@ package servlets;
 import data.CustomerDB;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -78,12 +79,29 @@ public class AdminStatisticsServlet extends HttpServlet {
             out.println("</tr>");
             
                 ArrayList<Integer> salesList = AggregateDataUtil.getMonthlySales(2016);
+                ArrayList<Double> profitList = AggregateDataUtil.getMonthlyProfit(2016);
+                ArrayList<Double> differenceList = AggregateDataUtil.getMonthlyProfit(2016);
                 
                 for(int i = 0; i <= salesList.size()+1; i++)
                 {
                     out.println("<tr>");
                     int month = i+1;
                     out.println("<td>"+month+"</td><td>" + salesList.get(i).toString() + "</td>");
+                    
+                    DecimalFormat formatter;
+                    formatter = new DecimalFormat("##.##");
+                    
+                    out.println("<td>" + formatter.format(profitList.get(i)) + "</td>");
+                    double difference;
+                    if(i != 0)
+                    {
+                        difference = differenceList.get(i) - differenceList.get(i-1);
+                    }
+                    else
+                    {
+                        difference = 0;
+                    }
+                    out.println("<td>" + formatter.format(difference) + "</td>");
                     out.println("</tr>");
                 }
                 

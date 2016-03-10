@@ -24,21 +24,27 @@ public class AggregateDataUtil
         {
             retVal.add(new Integer(TransactionDB.getMonthlySale(year, i)));
         }
-        
         return retVal;
     }
     
     public static ArrayList<Integer> getWeeklySales(int month, int year)
     {
+//        
         ArrayList<Integer> retVal = new ArrayList<>();
-        
+//        for(int i = 1; i <= 12; i++)
+//        {
+//            retVal.add(new Integer(TransactionDB.getMonthlySale(year, i)));
+//        }
         return retVal;
     }
     
-    public static ArrayList<Integer> getMonthlyProfit(int year)
+    public static ArrayList<Double> getMonthlyProfit(int year)
     {
-        ArrayList<Integer> retVal = new ArrayList<>();
-        
+        ArrayList<Double> retVal = new ArrayList<>();
+        for(int i = 1; i <= 12; i++)
+        {
+            retVal.add(new Double(TransactionDB.getMonthlyProfit(year, i)));
+        }
         return retVal;
     }
     
