@@ -29,15 +29,23 @@ public class TransactionDB
         PreparedStatement ps = null;
         
         String query
-                = "INSERT INTO Transactions(dateOfTransaction, price, quantity, Customer_username, Books_idProduct, category)"+"VALUE(?,?,?,?,?,?)";
+                = "INSERT INTO Transactions(dateOfTransaction, price, quantity, Customer_username, Books_idProduct, category)"
+                +" VALUE(?,?,?,?,?,?)";
         try {
+            
+            String test = "";
+            
+            int idProduct = transaction.getBooks_idProduct();
+            Book book = BookDB.getBook(idProduct);
+            String category = ""+book.getCategory();
+            
             ps = connection.prepareStatement(query);
-            ps.setString(1, ""+transaction.getDate());
-            ps.setString(2, ""+transaction.getPrice());
-            ps.setString(3, ""+transaction.getQuantity());
-            ps.setString(4, ""+transaction.getCustomer_username());
-            ps.setString(5, ""+transaction.getBooks_idProduct());
-            ps.setString(6, ""+BookDB.getBook(transaction.getBooks_idProduct()).getCategory());
+            ps.setDate(1, transaction.getDate());
+            ps.setDouble(2, transaction.getPrice());
+            ps.setInt(3, transaction.getQuantity());
+            ps.setString(4, transaction.getCustomer_username());
+            ps.setInt(5, transaction.getBooks_idProduct());
+            ps.setString(6, category);
             
             return ps.executeUpdate();
         } catch (SQLException e){

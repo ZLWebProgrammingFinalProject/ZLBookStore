@@ -101,7 +101,7 @@ public class CreateAccountServlet extends HttpServlet
         CustomerDB.insert(customer);
         
         
-        if(isAdmin != null)
+        if(isAdmin == null)
         {
             response.sendRedirect("http://localhost:8080/ZL_BookStore/htmls/login.html");
         }

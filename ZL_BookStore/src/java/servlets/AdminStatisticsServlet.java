@@ -52,6 +52,17 @@ public class AdminStatisticsServlet extends HttpServlet {
                 out.println("</head>");
                 out.println("<body>");
                 out.println("<h1>Servlet AdminStatisticsServlet</h1>");
+                
+                out.println("<a href=\"#\">Monthly Sales, Profit, & Growth</a>");
+                out.println("<br />");
+                out.println("<a href=\"#\">Weekly Sales, Profit, Growth</a>");
+                
+                out.println("<br />");
+                out.println("<br />");
+                
+                out.println("<H1>Monthly Sales, Profit, & Growth</H1>");
+                out.println("<br />");
+                
                 out.println("</body>");
                 out.println("</html>");
             }
