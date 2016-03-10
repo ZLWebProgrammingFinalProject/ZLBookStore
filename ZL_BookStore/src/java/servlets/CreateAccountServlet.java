@@ -107,7 +107,7 @@ public class CreateAccountServlet extends HttpServlet
         }
         else
         {
-            response.sendRedirect("http://localhost:8080/ZL_BookStore/AdminStatisticsServlet");
+            response.sendRedirect("http://localhost:8080/ZL_BookStore/AdminStatistics");
         }
         
         
