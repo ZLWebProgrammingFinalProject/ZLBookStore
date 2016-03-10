@@ -23,13 +23,14 @@ public class CustomerDB {
         PreparedStatement ps = null;
         
         String query
-                = "INSERT INTO Customer(username, name, password, email)"+"VALUE(?,?,?,?)";
+                = "INSERT INTO Customer(username, name, password, email, admin)"+"VALUE(?,?,?,?,?)";
         try {
             ps = connection.prepareStatement(query);
             ps.setString(1, customer.getUserName());
             ps.setString(2, customer.getName());
             ps.setString(3, customer.getPassWord());
             ps.setString(4, customer.getEmail());
+            ps.setString(5, ""+customer.isAdmin());
             
             return ps.executeUpdate();
         } catch (SQLException e){

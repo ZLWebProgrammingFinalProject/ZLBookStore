@@ -8,24 +8,18 @@ package servlets;
 import data.CustomerDB;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import models.Customer;
+import util.CookieUtil;
 
 /**
  *
  * @author jin3lee
  */
-public class CreateAccountServlet extends HttpServlet 
-{
-
+public class AdminStatisticsServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,71 +31,31 @@ public class CreateAccountServlet extends HttpServlet
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException 
-    {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        String username = "0";
-        String name = "0";
-        String email = "0";
-        String password = "0";
+        Cookie[] cookies = request.getCookies();
+        String Customer_username = CookieUtil.getCookieValue(cookies, "currentUserLoggedIn");
         
-        username = request.getParameter("username");
-        password = request.getParameter("pwd1");
-        name = request.getParameter("name");
-        email = request.getParameter("email");
-        String isAdmin = request.getParameter("admin");
-        
-        String hasConnected = "false";
-        
-        try
+        if(!CustomerDB.isAdmin(Customer_username))
         {
-            Class.forName("org.gjt.mm.mysql.Driver");
-            String dbUrl = "jdbc:mysql://localhost:3306/zl";
-            String dbUsername = "root";
-            String dbPassword = "sesame";
             
-            Connection conn =  DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-            hasConnected = "true";
         }
-        catch(SQLException e)
+        else
         {
-            for(Throwable t:e)
-            {
-                t.printStackTrace();
+            try (PrintWriter out = response.getWriter()) {
+                /* TODO output your page here. You may use following sample code. */
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<title>Servlet AdminStatisticsServlet</title>");            
+                out.println("</head>");
+                out.println("<body>");
+                out.println("<h1>Servlet AdminStatisticsServlet</h1>");
+                out.println("</body>");
+                out.println("</html>");
             }
-            hasConnected = "failed -> SQLException";
-        } catch (ClassNotFoundException ex) { 
-            Logger.getLogger(CreateAccountServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-         Customer customer;
-        // String userName, String passWord, String name, String email
-        if(isAdmin != null)
-        {
-            customer = new Customer(username, password, name, email, 1);
-        }
-        else
-        {
-            customer = new Customer(username, password, name, email);
-        }
-        
-        
-        String isCustomerExist = "Don't Know if it exists..";
-        ///
-        if(CustomerDB.customerExists(customer.getUserName()))
-        {
-            isCustomerExist = "CUSTOMER DOES EXIST..";
-        }
-        else
-        {
-            isCustomerExist = "DOESN'T EXIST";
-        }
-        
-        CustomerDB.insert(customer);
-        
-        response.sendRedirect("http://localhost:8080/ZL_BookStore/htmls/login.html");
         
     }
 

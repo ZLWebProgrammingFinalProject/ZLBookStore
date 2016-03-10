@@ -17,6 +17,7 @@ public class Customer implements Serializable
     private String passWord;
     private String name;
     private String email;
+    private int admin;
     
     public Customer() 
     {
@@ -24,6 +25,7 @@ public class Customer implements Serializable
         this.passWord = "";
         this.name = "";
         this.email = "";
+        this.admin = 0;
     }
     
     public Customer(String userName, String passWord, String name, String email) 
@@ -32,8 +34,26 @@ public class Customer implements Serializable
         this.passWord = passWord;
         this.name = name;
         this.email = email;
+        this.admin = 0;
     }
     
+    public Customer(String userName, String passWord, String name, String email, int admin) 
+    {
+        this.userName = userName;
+        this.passWord = passWord;
+        this.name = name;
+        this.email = email;
+        this.admin = admin;
+    }
+    
+    
+    public int isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(int admin) {
+        this.admin = admin;
+    }
     
     public String getUserName() {
         return userName;
