@@ -52,6 +52,17 @@ public class ViewAllBooksServlet extends HttpServlet {
             BookDB.updateInventoryCount(idProduct,amount);
         }
         
+        if(request.getParameter("decrement") != null)
+        {
+            int idProduct = Integer.parseInt(request.getParameter("decrement"));
+            int amount = BookDB.getBookInventoryCount(idProduct);
+            if(amount > 0)
+            {
+                amount--;
+            }
+            BookDB.updateInventoryCount(idProduct,amount);
+        }
+        
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -107,7 +118,7 @@ public class ViewAllBooksServlet extends HttpServlet {
             
             if(isAdmin)
             {
-                out.println("<td>ADD More Books(ADMIN)</td>");
+                out.println("<td>(ADMIN)</td>");
             }
             out.println("</tr>");
             
@@ -274,7 +285,11 @@ public class ViewAllBooksServlet extends HttpServlet {
                     out.println("<td><form action=\"http://www.localhost:8080/ZL_BookStore/ViewAllBooks\" method=\"post\">");
                     out.println("<input type=\"hidden\" name=\"increment\" value=\""+books.get(i).getIdProduct()+"\"/>");
                     out.println("<input type=\"submit\" value=\"+\"/>");
-                    out.println("</form></td>");    
+                    out.println("</form>");
+                    out.println("<form action=\"http://www.localhost:8080/ZL_BookStore/ViewAllBooks\" method=\"post\">");
+                                out.println("<input type=\"hidden\" name=\"decrement\" value=\""+books.get(i).getIdProduct()+"\"/>");
+                        out.println("<input type=\"submit\" value=\"-\"/>");
+                    out.println("</form></td>");   
                 }
                 out.println("</tr>");
             }
@@ -305,6 +320,10 @@ public class ViewAllBooksServlet extends HttpServlet {
             out.println("<td><form action=\"http://www.localhost:8080/ZL_BookStore/ViewAllBooks\" method=\"post\">");
                     out.println("<input type=\"hidden\" name=\"increment\" value=\""+books.getIdProduct()+"\"/>");
             out.println("<input type=\"submit\" value=\"+\"/>");
+            out.println("</form>");   
+            out.println("<form action=\"http://www.localhost:8080/ZL_BookStore/ViewAllBooks\" method=\"post\">");
+                        out.println("<input type=\"hidden\" name=\"decrement\" value=\""+books.getIdProduct()+"\"/>");
+                out.println("<input type=\"submit\" value=\"-\"/>");
             out.println("</form></td>");    
         }
         out.println("</tr>");
@@ -337,7 +356,11 @@ public class ViewAllBooksServlet extends HttpServlet {
             out.println("<td><form action=\"http://www.localhost:8080/ZL_BookStore/ViewAllBooks\" method=\"post\">");
                     out.println("<input type=\"hidden\" name=\"increment\" value=\""+books.get(i).getIdProduct()+"\"/>");
             out.println("<input type=\"submit\" value=\"+\"/>");
-            out.println("</form></td>");    
+                    out.println("</form>");
+                    out.println("<form action=\"http://www.localhost:8080/ZL_BookStore/ViewAllBooks\" method=\"post\">");
+                                out.println("<input type=\"hidden\" name=\"decrement\" value=\""+books.get(i).getIdProduct()+"\"/>");
+                        out.println("<input type=\"submit\" value=\"-\"/>");
+                    out.println("</form></td>");   
         }
             out.println("</tr>");
         }
@@ -370,7 +393,11 @@ public class ViewAllBooksServlet extends HttpServlet {
             out.println("<td><form action=\"http://www.localhost:8080/ZL_BookStore/ViewAllBooks\" method=\"post\">");
                     out.println("<input type=\"hidden\" name=\"increment\" value=\""+books.get(i).getIdProduct()+"\"/>");
             out.println("<input type=\"submit\" value=\"+\"/>");
-            out.println("</form></td>");    
+                    out.println("</form>");
+                    out.println("<form action=\"http://www.localhost:8080/ZL_BookStore/ViewAllBooks\" method=\"post\">");
+                                out.println("<input type=\"hidden\" name=\"decrement\" value=\""+books.get(i).getIdProduct()+"\"/>");
+                        out.println("<input type=\"submit\" value=\"-\"/>");
+                    out.println("</form></td>");   
         }
             out.println("</tr>");
         }
@@ -403,6 +430,11 @@ public class ViewAllBooksServlet extends HttpServlet {
             out.println("<td><form action=\"http://www.localhost:8080/ZL_BookStore/ViewAllBooks\" method=\"post\">");
                     out.println("<input type=\"hidden\" name=\"increment\" value=\""+books.get(i).getIdProduct()+"\"/>");
             out.println("<input type=\"submit\" value=\"+\"/>");
+                    out.println("</form>");
+                    out.println("<form action=\"http://www.localhost:8080/ZL_BookStore/ViewAllBooks\" method=\"post\">");
+                                out.println("<input type=\"hidden\" name=\"decrement\" value=\""+books.get(i).getIdProduct()+"\"/>");
+                        out.println("<input type=\"submit\" value=\"-\"/>");
+                    out.println("</form></td>");   
             out.println("</form></td>");    
         }
             out.println("</tr>");
@@ -436,6 +468,11 @@ public class ViewAllBooksServlet extends HttpServlet {
             out.println("<td><form action=\"http://www.localhost:8080/ZL_BookStore/ViewAllBooks\" method=\"post\">");
                     out.println("<input type=\"hidden\" name=\"increment\" value=\""+books.get(i).getIdProduct()+"\"/>");
             out.println("<input type=\"submit\" value=\"+\"/>");
+                    out.println("</form>");
+                    out.println("<form action=\"http://www.localhost:8080/ZL_BookStore/ViewAllBooks\" method=\"post\">");
+                                out.println("<input type=\"hidden\" name=\"decrement\" value=\""+books.get(i).getIdProduct()+"\"/>");
+                        out.println("<input type=\"submit\" value=\"-\"/>");
+                    out.println("</form></td>");   
             out.println("</form></td>");    
         }
             out.println("</tr>");
@@ -469,7 +506,12 @@ public class ViewAllBooksServlet extends HttpServlet {
             out.println("<td><form action=\"http://www.localhost:8080/ZL_BookStore/ViewAllBooks\" method=\"post\">");
                     out.println("<input type=\"hidden\" name=\"increment\" value=\""+books.get(i).getIdProduct()+"\"/>");
             out.println("<input type=\"submit\" value=\"+\"/>");
-            out.println("</form></td>");    
+            
+                    out.println("</form>");
+                    out.println("<form action=\"http://www.localhost:8080/ZL_BookStore/ViewAllBooks\" method=\"post\">");
+                                out.println("<input type=\"hidden\" name=\"decrement\" value=\""+books.get(i).getIdProduct()+"\"/>");
+                        out.println("<input type=\"submit\" value=\"-\"/>");
+                    out.println("</form></td>");   
         }
             out.println("</tr>");
         }
