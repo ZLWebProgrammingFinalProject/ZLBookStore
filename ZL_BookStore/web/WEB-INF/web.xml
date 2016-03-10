@@ -64,6 +64,10 @@
         <servlet-name>AdminStatisticsServlet</servlet-name>
         <servlet-class>servlets.AdminStatisticsServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ConfirmAdminLoginServlet</servlet-name>
+        <servlet-class>servlets.ConfirmAdminLoginServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.htm</url-pattern>
@@ -119,6 +123,10 @@
     <servlet-mapping>
         <servlet-name>AdminStatisticsServlet</servlet-name>
         <url-pattern>/AdminStatistics</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConfirmAdminLoginServlet</servlet-name>
+        <url-pattern>/ConfirmAdminLogin</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

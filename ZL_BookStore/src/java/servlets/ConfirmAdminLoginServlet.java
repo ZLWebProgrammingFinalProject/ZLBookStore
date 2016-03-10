@@ -14,18 +14,16 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import models.Customer;
 
 /**
  *
  * @author jin3lee
  */
-public class CreateAccountServlet extends HttpServlet 
-{
-
+public class ConfirmAdminLoginServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,22 +35,14 @@ public class CreateAccountServlet extends HttpServlet
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException 
-    {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
         String username = "0";
-        String name = "0";
-        String email = "0";
         String password = "0";
         
         username = request.getParameter("username");
         password = request.getParameter("pwd1");
-        name = request.getParameter("name");
-        email = request.getParameter("email");
-        String isAdmin = request.getParameter("admin");
-        
-        String hasConnected = "false";
         
         try
         {
@@ -62,7 +52,6 @@ public class CreateAccountServlet extends HttpServlet
             String dbPassword = "sesame";
             
             Connection conn =  DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-            hasConnected = "true";
         }
         catch(SQLException e)
         {
@@ -70,47 +59,53 @@ public class CreateAccountServlet extends HttpServlet
             {
                 t.printStackTrace();
             }
-            hasConnected = "failed -> SQLException";
         } catch (ClassNotFoundException ex) { 
             Logger.getLogger(CreateAccountServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        // initialize values
+        String isCustomerExist = "Can't login??? wtf";
+        boolean isValidated = false;
         
-         Customer customer;
-        // String userName, String passWord, String name, String email
-        if(isAdmin != null)
-        {
-            customer = new Customer(username, password, name, email, 1);
-        }
-        else
-        {
-            customer = new Customer(username, password, name, email);
-        }
-        
-        String isCustomerExist = "Don't Know if it exists..";
         ///
-        if(CustomerDB.customerExists(customer.getUserName()))
+        if(CustomerDB.validateLogin(username, password) && CustomerDB.isAdmin(username))
         {
-            isCustomerExist = "CUSTOMER DOES EXIST..";
+            isCustomerExist = "You exist and have logged in!!!! SUCCESS!";
+            isValidated = true;
+            
+            // create cookie and store username
+            Cookie c = new Cookie("currentUserLoggedIn", username);
+            c.setMaxAge(60*30);    // removes the username when user closes the browser
+            c.setPath("/");
+            response.addCookie(c);
         }
         else
         {
-            isCustomerExist = "DOESN'T EXIST";
+            isCustomerExist = "FAILED TO LOGIN!";
         }
         
-        CustomerDB.insert(customer);
-        
-        
-        if(isAdmin != null)
-        {
-            response.sendRedirect("http://localhost:8080/ZL_BookStore/htmls/login.html");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet LoginServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            if(isValidated)
+            {
+                out.println("<meta http-equiv=\"refresh\" content=\"0; url=http://www.localhost:8080/ZL_BookStore/AdminStatistics\" />");
+                out.println("<h1>SUCCESSFULL Login! :)</h1>");
+            }
+            else
+            {
+               out.println("<meta http-equiv=\"refresh\" content=\"0; url=http://localhost:8080/ZL_BookStore/htmls/adminLogin.html\" />");
+               out.println("<h1>FAILED Login! >:/</h1>");                 
+            }
+            
+            out.println("</body>");
+            out.println("</html>");
         }
-        else
-        {
-            response.sendRedirect("http://localhost:8080/ZL_BookStore/AdminStatisticsServlet");
-        }
-        
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
