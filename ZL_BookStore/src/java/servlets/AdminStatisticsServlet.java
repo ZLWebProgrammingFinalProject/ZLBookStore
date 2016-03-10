@@ -37,9 +37,9 @@ public class AdminStatisticsServlet extends HttpServlet {
         Cookie[] cookies = request.getCookies();
         String Customer_username = CookieUtil.getCookieValue(cookies, "currentUserLoggedIn");
         
-        if(!CustomerDB.isAdmin(Customer_username))
+        if(CustomerDB.isAdmin(Customer_username))
         {
-            
+            response.sendRedirect("http://localhost:8080/ZL_BookStore/htmls/adminLogin.html");
         }
         else
         {
@@ -48,7 +48,7 @@ public class AdminStatisticsServlet extends HttpServlet {
                 out.println("<!DOCTYPE html>");
                 out.println("<html>");
                 out.println("<head>");
-                out.println("<title>Servlet AdminStatisticsServlet</title>");            
+                out.println("<title>ZL ADMIN</title>");
                 out.println("</head>");
                 out.println("<body>");
                 out.println("<h1>Servlet AdminStatisticsServlet</h1>");
