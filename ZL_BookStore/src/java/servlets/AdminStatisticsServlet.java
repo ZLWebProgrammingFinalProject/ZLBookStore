@@ -63,15 +63,15 @@ public class AdminStatisticsServlet extends HttpServlet {
                 out.println("<a href=\"http://www.localhost:8080/ZL_BookStore/AdminStatistics?format=week\">Weekly Sales, Profit, Growth</a>");
                 
                 out.println("<br />");
+                out.println("<a href=\"http://www.localhost:8080/ZL_BookStore/AdminStatistics?format=twoOrMore\">Customers with 2 or more purchases Each Month</a>");
+                
                 out.println("<br />");
                 
-                boolean doWeek = false;
-                if(request.getParameter("format").equals("week"))
+                if(request.getParameter("format").equals("twoOrMore"))
                 {
-                    doWeek = true;
+                    getTwoOrMorePurchasesStatistics(out, request);
                 }
-                
-                if(doWeek)
+                else if(request.getParameter("format").equals("week"))
                 {
                     getWeeklyStatistics(out, request);
                 }
@@ -148,6 +148,73 @@ public class AdminStatisticsServlet extends HttpServlet {
         }
     }
     
+    public void getTwoOrMorePurchasesStatistics(PrintWriter out, HttpServletRequest request)
+    {
+        int category = 1;
+        
+        if(request.getParameter("category") != null)
+        {
+            category = Integer.parseInt(request.getParameter("category"));
+        }
+        
+         out.println("<form action=\"http://www.localhost:8080/ZL_BookStore/AdminStatistics\" method=\"post\">");
+            out.println("<select name=\"category\">\n"); 
+                out.println("<option value=\""+1+"\">"+"Romance"+"</option>");
+                out.println("<option value=\""+2+"\">"+"Scifi"+"</option>");
+                out.println("<option value=\""+3+"\">"+"Education"+"</option>");
+                out.println("<option value=\""+4+"\">"+"Kids"+"</option>");
+                out.println("<option value=\""+5+"\">"+"Classic"+"</option>");
+                out.println("<option value=\""+6+"\">"+"Music"+"</option>");
+            out.println("</select>");
+            out.println("<input type=\"hidden\" name=\"format\" value=\"twoOrMore\"/>");
+            out.println("<input type=\"hidden\" name=\"filter\" value=\"1\"/>"
+            + "<input type=\"submit\" value=\"Search\"/>"
+            + "</form>");
+        
+            String categoryName = "Romance";
+            switch(category)
+            {
+            case 1:
+                categoryName = "Romance";
+                break;
+            case 2:
+                categoryName = "Scifi";
+                break;
+            case 3:
+                categoryName = "Education";
+                break;
+            case 4:
+                categoryName = "Kids";
+                break;
+            case 5:
+                categoryName = "Classic";
+                break;
+            case 6:
+                categoryName = "Music";
+                break;
+            }
+            out.println("<H1>2 or more Purchases a month in category " + categoryName + "</H1>");
+        
+        out.println("<br />");
+        out.println("<table border=\"1\">");
+        out.println("<tr>");
+        out.println("<td>Username</td>");
+        out.println("<td>Category</td>");
+        out.println("<td>Month</td>");
+        out.println("<tr>");
+        ArrayList<String> list = AggregateDataUtil.getTwoOrMorePurchaseUsers(categoryName);
+        for(int i = 0; i < list.size(); i++)
+        {
+            out.println(""+list.get(i)+"");
+        }
+        
+        out.println("</tr>");
+
+//        ArrayList<Integer> salesList = AggregateDataUtil.getMonthlySales(year);
+
+        
+    }
+    
      public void getWeeklyStatistics(PrintWriter out, HttpServletRequest request)
     {
         int year = 2016;
@@ -201,18 +268,18 @@ public class AdminStatisticsServlet extends HttpServlet {
         
          out.println("<form action=\"http://www.localhost:8080/ZL_BookStore/AdminStatistics\" method=\"post\">");
             out.println("<select name=\"theMonth\">\n");     
-                    out.println("<option value=\""+"1"+"\">Week "+"January"+"</option>");
-                    out.println("<option value=\""+"2"+"\">Week "+"Feburary"+"</option>");
-                    out.println("<option value=\""+"3"+"\">Week "+"March"+"</option>");
-                    out.println("<option value=\""+"4"+"\">Week "+"April"+"</option>");
-                    out.println("<option value=\""+"5"+"\">Week "+"May"+"</option>");
-                    out.println("<option value=\""+"6"+"\">Week "+"June"+"</option>");
-                    out.println("<option value=\""+"7"+"\">Week "+"July"+"</option>");
-                    out.println("<option value=\""+"8"+"\">Week "+"August"+"</option>");
-                    out.println("<option value=\""+"9"+"\">Week "+"September"+"</option>");
-                    out.println("<option value=\""+"10"+"\">Week "+"October"+"</option>");
-                    out.println("<option value=\""+"11"+"\">Week "+"November"+"</option>");
-                    out.println("<option value=\""+"12"+"\">Week "+"December"+"</option>");
+                    out.println("<option value=\""+"1"+"\"> "+"January"+"</option>");
+                    out.println("<option value=\""+"2"+"\"> "+"Feburary"+"</option>");
+                    out.println("<option value=\""+"3"+"\"> "+"March"+"</option>");
+                    out.println("<option value=\""+"4"+"\"> "+"April"+"</option>");
+                    out.println("<option value=\""+"5"+"\"> "+"May"+"</option>");
+                    out.println("<option value=\""+"6"+"\"> "+"June"+"</option>");
+                    out.println("<option value=\""+"7"+"\"> "+"July"+"</option>");
+                    out.println("<option value=\""+"8"+"\"> "+"August"+"</option>");
+                    out.println("<option value=\""+"9"+"\"> "+"September"+"</option>");
+                    out.println("<option value=\""+"10"+"\"> "+"October"+"</option>");
+                    out.println("<option value=\""+"11"+"\"> "+"November"+"</option>");
+                    out.println("<option value=\""+"12"+"\"> "+"December"+"</option>");
             out.println("</select>");
             out.println("<input type=\"hidden\" name=\"format\" value=\"week\"/>");
             out.println("<input type=\"hidden\" name=\"filter\" value=\"1\"/>"

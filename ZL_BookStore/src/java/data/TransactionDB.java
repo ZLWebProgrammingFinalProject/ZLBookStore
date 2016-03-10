@@ -433,4 +433,66 @@ public class TransactionDB
             pool.freeConnection(connection);
         }
     }
+    
+    
+    public static ArrayList<Transaction> getTwoOrMoreUsers(String category)
+    {
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps= null;
+        ResultSet rs = null;
+        
+        String query = "SELECT * \n" +
+                    "  FROM Transactions\n" +
+                    "  WHERE quantity > '1'"
+                + " AND category = '"+category+"'";
+        
+        try
+        {
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            
+            
+            while(rs.next())
+            {
+                //(int idProduct, double price, String category, String author,
+                //int publishedYear, int amountInventory, String bookName) 
+                 //(int idProduct, double price, String category, String author,
+                //int publishedYear, int amountInventory, String bookName) 
+                int idTransaction = rs.getInt("idTransactions");
+                Date date = rs.getDate("dateOfTransaction");
+                double price = rs.getDouble("price");
+                int quantity = rs.getInt("quantity");
+                String username = rs.getString("Customer_username");
+                int Books_idProduct = rs.getInt("Books_idProduct");
+                
+                transactions.add(
+                    new Transaction(
+                        idTransaction,
+                            date,
+                            price,
+                            quantity,
+                            username,
+                            Books_idProduct,
+                            BookDB.getBook(Books_idProduct).getCategory()
+                    )
+                );
+            }
+            
+            return transactions;
+        } 
+        catch(SQLException e)
+        {
+            System.out.println(e);
+            return transactions;
+        }
+        finally
+        {
+            DBUtil.closeResultSet(rs);
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
 }

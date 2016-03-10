@@ -5,9 +5,12 @@
  */
 package util;
 
+import data.BookDB;
 import data.TransactionDB;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
+import models.Transaction;
 
 /**
  *
@@ -58,19 +61,69 @@ public class AggregateDataUtil
         return retVal;
     }
     
-    
-    public static ArrayList<Integer> getMonthlyDifference(int year)
+    public static ArrayList<String> getTwoOrMorePurchaseUsers(String category)
     {
-        ArrayList<Integer> retVal = new ArrayList<>();
+        ArrayList<String> row = new ArrayList<>();
         
-        return retVal;
+        ArrayList<Transaction> transactions = TransactionDB.getTwoOrMoreUsers(category);
+        
+        Calendar cal = Calendar.getInstance();
+        
+        for(int i = 0; i <transactions.size(); i++)
+        {
+            cal.setTime(transactions.get(i).getDate());
+            row.add(new String("<tr><td>"+transactions.get(i).getCustomer_username()+"</td>"
+                    + "<td>"+BookDB.getBook(transactions.get(i).getBooks_idProduct()).getCategory()+"</td>"
+                    + "<td>"+getMonthName(cal.get(Calendar.MONTH))+"</td><tr>"));
+        }
+        
+        
+        return row;
     }
     
-    public static ArrayList<Integer> getWeeklyDifference(int month, int year)
+    public static String getMonthName(int month)
     {
-        ArrayList<Integer> retVal = new ArrayList<>();
+        String monthName = "";
+        switch(month)
+        {
+            case 1:
+                monthName = "January";
+                break;
+            case 2:
+                monthName = "Feburary";
+                break;
+            case 3:
+                monthName = "March";
+                break;
+            case 4:
+                monthName = "April";
+                break;
+            case 5:
+                monthName = "May";
+                break;
+            case 6:
+                monthName = "June";
+                break;
+            case 7:
+                monthName = "July";
+                break;
+            case 8:
+                monthName = "August";
+                break;
+            case 9:
+                monthName = "September";
+                break;
+            case 10:
+                monthName = "October";
+                break;
+            case 11:
+                monthName = "November";
+                break;
+            case 12:
+                monthName = "December";
+                break;
+        }
         
-        return retVal;
+        return monthName;
     }
-    
 }
